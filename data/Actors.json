@@ -1,4 +1,4 @@
 [
 null,
-{"id":1,"battlerName":"","characterIndex":0,"characterName":"$CrusaderMan [5 5 5 5]","classId":1,"equips":[1,1,0,3,0],"faceIndex":0,"faceName":"Faces1","traits":[],"initialLevel":1,"maxLevel":50,"name":"CrusaderMan","nickname":"","note":"","profile":""}
+{"id":1,"battlerName":"","characterIndex":0,"characterName":"$CrusaderMan [5 5 5 5]","classId":1,"equips":[1,1,0,3,0],"faceIndex":0,"faceName":"Faces1","traits":[],"initialLevel":1,"maxLevel":40,"name":"CrusaderMan","nickname":"","note":"","profile":""}
 ]
