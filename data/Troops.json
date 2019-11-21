@@ -1,3 +1,8 @@
 [
-null
+null,
+{"id":1,"members":[{"enemyId":1,"x":165,"y":355,"hidden":false}],"name":"Slime","pages":[{"conditions":{"actorHp":50,"actorId":1,"actorValid":false,"enemyHp":50,"enemyIndex":0,"enemyValid":false,"switchId":1,"switchValid":false,"turnA":0,"turnB":0,"turnEnding":false,"turnValid":false},"list":[{"code":0,"indent":0,"parameters":[]}],"span":0}]},
+{"id":2,"members":[{"enemyId":2,"x":177,"y":352,"hidden":false}],"name":"Bandit","pages":[{"conditions":{"actorHp":50,"actorId":1,"actorValid":false,"enemyHp":50,"enemyIndex":0,"enemyValid":false,"switchId":1,"switchValid":false,"turnA":0,"turnB":0,"turnEnding":false,"turnValid":false},"list":[{"code":0,"indent":0,"parameters":[]}],"span":0}]},
+{"id":3,"members":[{"enemyId":2,"x":142,"y":409,"hidden":false},{"enemyId":2,"x":218,"y":316,"hidden":false}],"name":"Bandit*2","pages":[{"conditions":{"actorHp":50,"actorId":1,"actorValid":false,"enemyHp":50,"enemyIndex":0,"enemyValid":false,"switchId":1,"switchValid":false,"turnA":0,"turnB":0,"turnEnding":false,"turnValid":false},"list":[{"code":0,"indent":0,"parameters":[]}],"span":0}]},
+{"id":4,"members":[{"enemyId":3,"x":162,"y":361,"hidden":false}],"name":"Bandit Chief","pages":[{"conditions":{"actorHp":50,"actorId":1,"actorValid":false,"enemyHp":50,"enemyIndex":0,"enemyValid":false,"switchId":1,"switchValid":false,"turnA":0,"turnB":0,"turnEnding":false,"turnValid":false},"list":[{"code":0,"indent":0,"parameters":[]}],"span":0}]},
+{"id":5,"members":[{"enemyId":1,"x":139,"y":376,"hidden":false},{"enemyId":1,"x":200,"y":316,"hidden":false}],"name":"Slime*2","pages":[{"conditions":{"actorHp":50,"actorId":1,"actorValid":false,"enemyHp":50,"enemyIndex":0,"enemyValid":false,"switchId":1,"switchValid":false,"turnA":0,"turnB":0,"turnEnding":false,"turnValid":false},"list":[{"code":0,"indent":0,"parameters":[]}],"span":0}]}
 ]
