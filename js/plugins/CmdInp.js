@@ -86,7 +86,8 @@ Game_Interpreter.prototype.pluginCommand = function(command, args) {
 				Darkkitten.Param.varId = Number(Darkkitten.Parameters['Text Variable']);
 				Darkkitten.Param.maxLength = Number(Darkkitten.Parameters['Max Characters']);
 				Darkkitten.Param.defaultPromptText = String(Darkkitten.Parameters['Default Header']);
-                Darkkitten.Param.defaultInputText = String(Darkkitten.Parameters['Default InputText']);
+                //Darkkitten.Param.defaultInputText = String(Darkkitten.Parameters['Default InputText']);
+                Darkkitten.Param.defaultInputText = String($dataActionKeywords[1].display);
 				if (Darkkitten.Param.UseImage === "true")
 				{
 					Darkkitten.Param.defImage = Darkkitten.Parameters['Image Name'];
@@ -299,7 +300,7 @@ Window_TextEdit.prototype.refresh = function() {
     		else
     		{
 				//this.drawTextEx(Darkkitten.Param.defaultPromptText.slice(9), 0, this.lineHeight() - 25);
-        this.drawTextEx(Darkkitten.Param.defaultPromptText, 0, this.lineHeight() - 25)
+                this.drawTextEx(Darkkitten.Param.defaultPromptText, 0, this.lineHeight() - 25)
     			for (var i = 0; i < Darkkitten.Param.maxLength; i++) {
     			this.drawUnderline(i);
    				}
