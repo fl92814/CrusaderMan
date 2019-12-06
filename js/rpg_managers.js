@@ -40,7 +40,6 @@ var $gameTroop        = null;
 var $gameMap          = null;
 var $gamePlayer       = null;
 var $testEvent        = null;
-var $actionKeywords   = null;
 
 DataManager._globalId       = 'RPGMV';
 DataManager._lastAccessedId = 1;
@@ -60,8 +59,7 @@ DataManager._databaseFiles = [
     { name: '$dataTilesets',     src: 'Tilesets.json'     },
     { name: '$dataCommonEvents', src: 'CommonEvents.json' },
     { name: '$dataSystem',       src: 'System.json'       },
-    { name: '$dataMapInfos',     src: 'MapInfos.json'     },
-    { name: '$dataActionKeywords',    src: 'ActionKeywords.json'     }
+    { name: '$dataMapInfos',     src: 'MapInfos.json'     }
 ];
 
 DataManager.loadDatabase = function() {
