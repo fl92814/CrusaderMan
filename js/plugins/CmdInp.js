@@ -86,8 +86,7 @@ Game_Interpreter.prototype.pluginCommand = function(command, args) {
 				Darkkitten.Param.varId = Number(Darkkitten.Parameters['Text Variable']);
 				Darkkitten.Param.maxLength = Number(Darkkitten.Parameters['Max Characters']);
 				Darkkitten.Param.defaultPromptText = String(Darkkitten.Parameters['Default Header']);
-                //Darkkitten.Param.defaultInputText = String(Darkkitten.Parameters['Default InputText']);
-                Darkkitten.Param.defaultInputText = String($dataActionKeywords[1].display);
+                Darkkitten.Param.defaultInputText = String(Darkkitten.Parameters['Default InputText']);
 				if (Darkkitten.Param.UseImage === "true")
 				{
 					Darkkitten.Param.defImage = Darkkitten.Parameters['Image Name'];
