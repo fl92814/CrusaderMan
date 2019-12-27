@@ -3,7 +3,7 @@
 //=============================================================================
 
 /*:
- * @plugindesc v0.0.1 KeywordBank that allows searching, locking, unlocking, filtering, etc.
+ * @plugindesc v0.0.2 KeywordBank that allows searching, locking, unlocking, filtering, etc.
  * @author Atlas
  *
  * @param Database
@@ -157,4 +157,4 @@ var KeywordBank = KeywordBank || {};
     };
 })();
 
-Imported.KeywordBank = 0.2;
+Imported.KeywordBank = '0.0.2';
