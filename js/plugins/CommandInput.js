@@ -53,23 +53,47 @@ Imported.CommandInput = '0.0.2';
 (function() {
     "use strict";
 
+    CommandInput.configureCommandDisplay = function(length, defaultString){
+        CommandInput.Parameters.CommandDisplay.length = length;
+        CommandInput.Parameters.CommandDisplay.defaultString = defaultString;
+    };
+
+    CommandInput.configurePortrait = function(x, y, width, height){
+        CommandInput.Parameters.Portrait.x = x;
+        CommandInput.Parameters.Portrait.y = y;
+        CommandInput.Parameters.Portrait.width = width;
+        CommandInput.Parameters.Portrait.height = height;
+    };
+
+    CommandInput.configureDialogue = function(x, y, lineLength){
+        CommandInput.Parameters.Dialogue.x = x;
+        CommandInput.Parameters.Dialogue.y = y;
+        CommandInput.Parameters.Dialogue.lineLength = lineLength;
+    };
+
     var old_pluginCommand = Game_Interpreter.prototype.pluginCommand;
     Game_Interpreter.prototype.pluginCommand = function(pluginCommand, args) {
         old_pluginCommand.call(this, pluginCommand, args);
-        if (pluginCommand === 'interact') {
-            CommandInput.Parameters.CommandDisplay.length = args[0];
-            CommandInput.Parameters.CommandDisplay.defaultString = args[1];
-            CommandInput.Parameters.Portrait.x = args[2];
-            CommandInput.Parameters.Portrait.y = args[3];
-            CommandInput.Parameters.Portrait.width = args[4];
-            CommandInput.Parameters.Portrait.height = args[5];
-            CommandInput.Parameters.Portrait.path = args[6];
-            CommandInput.Parameters.Dialogue.x = args[7];
-            CommandInput.Parameters.Dialogue.y = args[8];
-            CommandInput.Parameters.Dialogue.lineLength = args[9];
-            CommandInput.Parameters.Dialogue.dialogue = args[10];
 
-            SceneManager.push(SceneCommandInput);
+        switch(pluginCommand)
+        {
+            case 'interact':
+                CommandInput.Parameters.Portrait.path = args[0];
+                CommandInput.Parameters.Dialogue.dialogue = args[1];
+                SceneManager.push(SceneCommandInput);
+                break;
+
+            case 'interact_configure_display':
+                CommandInput.configureCommandDisplay(args[0], args[1]);
+                break;
+
+            case 'interact_configure_portrait':
+                CommandInput.configurePortrait(args[0], args[1], args[2], args[3]);
+                break;
+
+            case 'interact_configure_dialogue':
+                CommandInput.configureDialogue(args[0], args[1], args[2]);
+                break;
         }
     };
 
