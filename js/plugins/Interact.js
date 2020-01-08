@@ -1,9 +1,9 @@
 //=============================================================================
-// CommandInput.js
+// Interact.js
 //=============================================================================
 
 /*:
- * @plugindesc v0.0.1 CommandInput Enables a Command Input system.
+ * @plugindesc v0.0.2 Interact allows the user to interact with something
  * @author Atlas
  *
  * @param Text Variable
@@ -43,32 +43,41 @@
  *
  */
 
-var CommandInput = CommandInput || {};
-CommandInput.DefaultParameters = PluginManager.parameters('CommandInput');
-CommandInput.Parameters = CommandInput.Parameters || {};
+var Interact = Interact || {};
+Interact.DefaultParameters = PluginManager.parameters('Interact');
+Interact.Parameters = Interact.Parameters || {};
+Interact.Parameters.CommandDisplay = Interact.Parameters.CommandDisplay || {};
+Interact.Parameters.Portrait = Interact.Parameters.Portrait || {};
+Interact.Parameters.Dialogue = Interact.Parameters.Dialogue || {};
 
 var Imported = Imported || {};
-Imported.CommandInput = '0.0.2';
+Imported.Interact = '0.0.2';
 
 (function() {
     "use strict";
 
-    CommandInput.configureCommandDisplay = function(length, defaultString){
-        CommandInput.Parameters.CommandDisplay.length = length;
-        CommandInput.Parameters.CommandDisplay.defaultString = defaultString;
+    Interact.interact = function(portraitPath, dialogue){
+        Interact.Parameters.Portrait.path = portraitPath;
+        Interact.Parameters.Dialogue.dialogue = dialogue;
+        SceneManager.push(SceneInteract);
     };
 
-    CommandInput.configurePortrait = function(x, y, width, height){
-        CommandInput.Parameters.Portrait.x = x;
-        CommandInput.Parameters.Portrait.y = y;
-        CommandInput.Parameters.Portrait.width = width;
-        CommandInput.Parameters.Portrait.height = height;
+    Interact.configureCommandDisplay = function(length, defaultString){
+        Interact.Parameters.CommandDisplay.length = length;
+        Interact.Parameters.CommandDisplay.defaultString = defaultString;
     };
 
-    CommandInput.configureDialogue = function(x, y, lineLength){
-        CommandInput.Parameters.Dialogue.x = x;
-        CommandInput.Parameters.Dialogue.y = y;
-        CommandInput.Parameters.Dialogue.lineLength = lineLength;
+    Interact.configurePortrait = function(x, y, width, height){
+        Interact.Parameters.Portrait.x = x;
+        Interact.Parameters.Portrait.y = y;
+        Interact.Parameters.Portrait.width = width;
+        Interact.Parameters.Portrait.height = height;
+    };
+
+    Interact.configureDialogue = function(x, y, lineLength){
+        Interact.Parameters.Dialogue.x = x;
+        Interact.Parameters.Dialogue.y = y;
+        Interact.Parameters.Dialogue.lineLength = lineLength;
     };
 
     var old_pluginCommand = Game_Interpreter.prototype.pluginCommand;
@@ -78,44 +87,42 @@ Imported.CommandInput = '0.0.2';
         switch(pluginCommand)
         {
             case 'interact':
-                CommandInput.Parameters.Portrait.path = args[0];
-                CommandInput.Parameters.Dialogue.dialogue = args[1];
-                SceneManager.push(SceneCommandInput);
+                Interact.interact(args[0], args[1]);
                 break;
 
             case 'interact_configure_display':
-                CommandInput.configureCommandDisplay(args[0], args[1]);
+                Interact.configureCommandDisplay(args[0], args[1]);
                 break;
 
             case 'interact_configure_portrait':
-                CommandInput.configurePortrait(args[0], args[1], args[2], args[3]);
+                Interact.configurePortrait(args[0], args[1], args[2], args[3]);
                 break;
 
             case 'interact_configure_dialogue':
-                CommandInput.configureDialogue(args[0], args[1], args[2]);
+                Interact.configureDialogue(args[0], args[1], args[2]);
                 break;
         }
     };
 
 
     //------------------------------------------------------------------------
-    //SceneCommandInput
+    //SceneInteract
     // Creates the Command Input Scene
     //------------------------------------------------------------------------
 
-    function SceneCommandInput(){
+    function SceneInteract(){
         this.initialize.apply(this, arguments);
     }
 
     //Constructors
-    SceneCommandInput.prototype = Object.create(Scene_MenuBase.prototype);
-    SceneCommandInput.prototype.constructor = SceneCommandInput;
+    SceneInteract.prototype = Object.create(Scene_MenuBase.prototype);
+    SceneInteract.prototype.constructor = SceneInteract;
 
-    SceneCommandInput.prototype.initialize = function() {
+    SceneInteract.prototype.initialize = function() {
         Scene_MenuBase.prototype.initialize.call(this);
     };
 
-    SceneCommandInput.prototype.create = function() {
+    SceneInteract.prototype.create = function() {
         Scene_MenuBase.prototype.create.call(this);
         this.createCommandDisplayWindow();
         this.createKeywordBankWindow();
@@ -124,43 +131,43 @@ Imported.CommandInput = '0.0.2';
         this.createObjectDialogueWindow();
     };
 
-    SceneCommandInput.prototype.start = function() {
+    SceneInteract.prototype.start = function() {
         Scene_MenuBase.prototype.start.call(this);
         this.m_commandDisplayWindow.refresh();
     };
 
-    SceneCommandInput.prototype.createCommandDisplayWindow = function() {
-        this.m_commandDisplayWindow = new WindowCommandDisplay(CommandInput.Parameters.CommandDisplay.length, CommandInput.Parameters.CommandDisplay.defaultString);
+    SceneInteract.prototype.createCommandDisplayWindow = function() {
+        this.m_commandDisplayWindow = new WindowCommandDisplay(Interact.Parameters.CommandDisplay.length, Interact.Parameters.CommandDisplay.defaultString);
         this.addWindow(this.m_commandDisplayWindow);
     };
 
-    SceneCommandInput.prototype.createKeywordBankWindow = function() {
+    SceneInteract.prototype.createKeywordBankWindow = function() {
         this.m_keywordBankWindow = new KeywordBankWindow();
         this.addWindow(this.m_keywordBankWindow);
     };
 
-    SceneCommandInput.prototype.createCommandInputWindow = function() {
+    SceneInteract.prototype.createCommandInputWindow = function() {
         this.m_commandInputWindow = new WindowCommandInput(this.m_commandDisplayWindow, this.m_keywordBankWindow);
         this.m_commandInputWindow.setHandler('ok', this.commandInputComplete.bind(this));
         this.addWindow(this.m_commandInputWindow);
     };
 
-    SceneCommandInput.prototype.createObjectPortraitWindow = function() {
-        this.m_objectPortraitWindow = new WindowObjectPortrait(CommandInput.Parameters.Portrait.x, CommandInput.Parameters.Portrait.y,
-            CommandInput.Parameters.Portrait.width, CommandInput.Parameters.Portrait.height, CommandInput.Parameters.Portrait.path);
+    SceneInteract.prototype.createObjectPortraitWindow = function() {
+        this.m_objectPortraitWindow = new WindowObjectPortrait(Interact.Parameters.Portrait.x, Interact.Parameters.Portrait.y,
+            Interact.Parameters.Portrait.width, Interact.Parameters.Portrait.height, Interact.Parameters.Portrait.path);
         this.addWindow(this.m_objectPortraitWindow);
     };
 
-    SceneCommandInput.prototype.createObjectDialogueWindow = function() {
-        this.m_objectDialogueWindow = new WindowObjectDialogue(CommandInput.Parameters.Dialogue.x, CommandInput.Parameters.Dialogue.y,
-            CommandInput.Parameters.Dialogue.lineLength, CommandInput.Parameters.Dialogue.dialogue);
+    SceneInteract.prototype.createObjectDialogueWindow = function() {
+        this.m_objectDialogueWindow = new WindowObjectDialogue(Interact.Parameters.Dialogue.x, Interact.Parameters.Dialogue.y,
+            Interact.Parameters.Dialogue.lineLength, Interact.Parameters.Dialogue.dialogue);
         this.addWindow(this.m_objectDialogueWindow);
     };
 
-    SceneCommandInput.prototype.commandInputComplete = function() {
+    SceneInteract.prototype.commandInputComplete = function() {
         var str = this.m_commandDisplayWindow.finaltext();
         var re = new RegExp(str, "i");
-        $gameVariables.setValue(CommandInput.Parameters.varId, re.source);
+        $gameVariables.setValue(Interact.Parameters.varId, re.source);
         this.popScene();
     };
 
@@ -285,7 +292,6 @@ Imported.CommandInput = '0.0.2';
     WindowCommandDisplay.prototype.refresh = function() {
         this.contents.clear();
         console.log(m_text);
-        this.drawTextEx(CommandInput.Param.defaultPromptText.slice(9), (this.left() + 10), this.lineHeight() - 25);
         for (var i = 0; i < this.m_maxLength; i++) {
             this.drawUnderline(i);
         }
