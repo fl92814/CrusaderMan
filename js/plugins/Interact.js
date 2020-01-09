@@ -11,7 +11,21 @@
  * @param Command Display
  * @parent Settings
  * @type struct<CommandDisplay>
- * @desc Length and default command.
+ * @desc Position, max length and default command.
+ */
+
+ /*
+ * @param Character Input
+ * @parent Settings
+ * @type struct<CharacterInput>
+ * @desc Position, width, and height
+ */
+
+/*
+ * @param Keyword Bank
+ * @parent Settings
+ * @type struct<KeywordBank>
+ * @desc Position, max keyword length, and max keywords displayed
  */
 
  /* @param Portrait
@@ -27,6 +41,22 @@
  */
 
  /*~struct~CommandDisplay:
+ * @param Position X
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc X Position of portrait window
+ * 
+ * @param Position Y
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc Y Position of portrait window
+ * 
  * @param Max Length
  * @type number
  * @default 12
@@ -41,7 +71,75 @@
  * @desc Default command string
  */
 
-  /*~struct~Portrait:
+ /*~struct~CharacterInput:
+ * @param Position X
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc X Position of portrait window
+ * 
+ * @param Position Y
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc Y Position of portrait window
+ * 
+ * @param Row Size
+ * @type number
+ * @default 1
+ * @decimals 0
+ * @min 1
+ * @max 9999
+ * @desc How many characters in each row
+ * 
+ * @param Column Size
+ * @type number
+ * @default 1
+ * @decimals 0
+ * @min 1
+ * @max 9999
+ * @desc How many characters in each column
+ */
+
+  /*~struct~KeywordBank:
+ * @param Position X
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc X Position of portrait window
+ * 
+ * @param Position Y
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc Y Position of portrait window
+ * 
+ * @param Max Keyword Length
+ * @type number
+ * @default 1
+ * @decimals 0
+ * @min 1
+ * @max 9999
+ * @desc How many characters in each keyword are displayed
+ * 
+ * @param Max Keywords Displayed
+ * @type number
+ * @default 1
+ * @decimals 0
+ * @min 1
+ * @max 9999
+ * @desc How many keywords are displayed at a time
+ */
+
+ /*~struct~Portrait:
  * @param Position X
  * @type number
  * @default 0
@@ -120,22 +218,37 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
 
     //Load default parameters
     Interact.Parameters.CommandDisplay = {};
-    Interact.Parameters.CommandDisplay = Interact.DefaultParameters['Command Display']['Max Length'] || 0;
-    Interact.Parameters.CommandDisplay = Interact.DefaultParameters['Command Display']['Default String'] || "";
+    Interact.Parameters.CommandDisplay.x = Interact.DefaultParameters['Command Display']['Position X'] || 0;
+    Interact.Parameters.CommandDisplay.y = Interact.DefaultParameters['Command Display']['Position Y'] || 0;
+    Interact.Parameters.CommandDisplay.maxLength = Interact.DefaultParameters['Command Display']['Max Length'] || 0;
+    Interact.Parameters.CommandDisplay.defaultString = Interact.DefaultParameters['Command Display']['Default String'] || "";
+
+    Interact.Parameters.CharInput = {};
+    Interact.Parameters.CharInput.x = Interact.DefaultParameters['Character Input']['Position X'] || 0;
+    Interact.Parameters.CharInput.y = Interact.DefaultParameters['Character Input']['Position Y'] || 0;
+    Interact.Parameters.CharInput.rowSize = Interact.DefaultParameters['Character Input']['Row Size'] || 0;
+    Interact.Parameters.CharInput.columnSize = Interact.DefaultParameters['Character Input']['Column Size'] || 0;
+
+    Interact.Parameters.KeywordBank = {};
+    Interact.Parameters.KeywordBank.x = Interact.DefaultParameters['Keyword Bank']['Position X'] || 0;
+    Interact.Parameters.KeywordBank.y = Interact.DefaultParameters['Keyword Bank']['Position Y'] || 0;
+    Interact.Parameters.KeywordBank.maxKeywordLength = Interact.DefaultParameters['Keyword Bank']['Max Keyword Length'] || 0;
+    Interact.Parameters.KeywordBank.maxKeywords = Interact.DefaultParameters['Keyword Bank']['Max Keywords Displayed'] || 0;
 
     Interact.Parameters.Portrait = {};
     Interact.Parameters.Portrait.x = Interact.DefaultParameters.Portrait['Position X'] || 0;
     Interact.Parameters.Portrait.y = Interact.DefaultParameters.Portrait['Position Y'] || 0;
     Interact.Parameters.Portrait.width = Interact.DefaultParameters.Portrait['Width'] || 0;
     Interact.Parameters.Portrait.height  = Interact.DefaultParameters.Portrait['Height'] || 0;
-    Interact.Parameters.Portrait.path  = Interact.DefaultParameters.Portrait['Portait Image'] || "";
+    Interact.Parameters.Portrait.imageName  = Interact.DefaultParameters.Portrait['Portait Image'] || "";
 
     Interact.Parameters.Dialogue = {};
     Interact.Parameters.Dialogue.x = Interact.DefaultParameters.Dialogue['Position X'] || 0;
     Interact.Parameters.Dialogue.y = Interact.DefaultParameters.Dialogue['Position Y'] || 0;
     Interact.Parameters.Dialogue.lineLength = Interact.DefaultParameters.Dialogue['Max Line Characters'] || 0;
 
-    Interact.interact = function(portraitPath, dialogue){
+    Interact.interact = function(keywordGroup, portraitPath, dialogue){
+        Interact.Parameters.KeywordBank.keywordGroup = keywordGroup;
         Interact.Parameters.Portrait.path = portraitPath;
         Interact.Parameters.Dialogue.dialogue = dialogue;
         SceneManager.push(SceneInteract);
@@ -166,7 +279,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         switch(pluginCommand)
         {
             case 'interact':
-                Interact.interact(args[0], args[1]);
+                Interact.interact(args[0], args[1], args[2]);
                 break;
 
             case 'interact_configure_display':
@@ -216,24 +329,26 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     };
 
     SceneInteract.prototype.createCommandDisplayWindow = function() {
-        this.m_commandDisplayWindow = new WindowCommandDisplay(Interact.Parameters.CommandDisplay.length, Interact.Parameters.CommandDisplay.defaultString);
+        this.m_commandDisplayWindow = new WindowCommandDisplay(Interact.Parameters.CommandDisplay.maxLength, Interact.Parameters.CommandDisplay.defaultString);
         this.addWindow(this.m_commandDisplayWindow);
     };
 
     SceneInteract.prototype.createKeywordBankWindow = function() {
-        this.m_keywordBankWindow = new KeywordBankWindow();
+        this.m_keywordBankWindow = new WindowKeywordBank(Interact.Parameters.KeywordBank.x, Interact.Parameters.KeywordBank.y,
+            Interact.Parameters.KeywordBank.maxKeywordLength, Interact.Parameters.KeywordBank.maxKeywords, Interact.Parameters.KeywordBank.keywordGroup);
         this.addWindow(this.m_keywordBankWindow);
     };
 
     SceneInteract.prototype.createCommandInputWindow = function() {
-        this.m_commandInputWindow = new WindowCommandInput(this.m_commandDisplayWindow, this.m_keywordBankWindow);
+        this.m_commandInputWindow = new WindowCommandInput(Interact.Parameters.CharInput.x, Interact.Parameters.CharInput.y,
+            Interact.Parameters.CharInput.rowSize, Interact.Parameters.CharInput.columnSize, this.m_commandDisplayWindow, this.m_keywordBankWindow);
         this.m_commandInputWindow.setHandler('ok', this.commandInputComplete.bind(this));
         this.addWindow(this.m_commandInputWindow);
     };
 
     SceneInteract.prototype.createObjectPortraitWindow = function() {
         this.m_objectPortraitWindow = new WindowObjectPortrait(Interact.Parameters.Portrait.x, Interact.Parameters.Portrait.y,
-            Interact.Parameters.Portrait.width, Interact.Parameters.Portrait.height, Interact.Parameters.Portrait.path);
+            Interact.Parameters.Portrait.width, Interact.Parameters.Portrait.height, Interact.Parameters.Portrait.imageName);
         this.addWindow(this.m_objectPortraitWindow);
     };
 
@@ -249,6 +364,71 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         $gameVariables.setValue(Interact.Parameters.varId, re.source);
         this.popScene();
     };
+
+    //-----------------------------------------------------------------------------
+    // KeywordBankWindow
+    //
+    // The window for showing available keywords
+
+    function WindowKeywordBank(x, y, maxKeywordLength, maxKeywords, keywordGroup) {
+        this.initialize.apply(this, x, y, maxKeywordLength, maxKeywords, keywordGroup);
+    }
+
+    WindowKeywordBank.prototype = Object.create(Window_Selectable.prototype);
+    WindowKeywordBank.prototype.constructor = WindowKeywordBank;
+
+    WindowKeywordBank.prototype.initialize = function(x, y, maxKeywordLength, maxKeywords, keywordGroup) {
+        this.m_x = x;
+        this.m_y = y;
+        this.m_maxKeywordLength = maxKeywordLength;
+        this.m_maxKeywords = maxKeywords;
+        this.m_keywordGroup = keywordGroup;
+        this.m_index = 0;
+        this.m_keywordIndex = 0;
+        this.m_keywords = KeywordBank.get
+        Window_Selectable.prototype.initialize.call(this, x, y, this.windowWidth(), this.windowHeight());
+
+        this.activate();
+        this.refresh();
+    };
+
+    WindowKeywordBank.prototype.windowWidth = function() {
+        return this.m_maxKeywordLength * 20 + 4;
+    };
+
+    WindowKeywordBank.prototype.windowHeight = function() {
+        return this.fittingHeight(this.m_maxKeywords);
+    };
+
+    WindowKeywordBank.prototype.refresh = function(){
+        this.contents.clear();
+        this.drawKeywords();
+        this.updateCursor();
+    }
+
+    WindowKeywordBank.prototype.drawKeywords = function() {
+        var keywords = KeywordBank.getUnlockedKeywords(this.m_keywordGroup);
+    };
+
+    WindowKeywordBank.prototype.updateCursor = function() {
+        var rect = this.itemRect(this.m_index);
+        this.setCursorRect(rect.x, rect.y, rect.width, rect.height);
+    };
+
+    WindowKeywordBank.prototype.itemRect = function(index) {
+        return {
+            x: 5,
+            y: index * this.lineHeight(),
+            width: 36 * this.m_maxKeywordLength,
+            height: this.lineHeight()
+        };
+    };
+
+
+
+
+
+
 
     //-----------------------------------------------------------------------------
     // WindowCommandDisplay
@@ -386,8 +566,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     //
     // The window for selecting text characters on the input screen.
 
-    function WindowCommandInput() {
-        this.initialize.apply(this, arguments);
+    function WindowCommandInput(x, y, rowSize, columnSize, displayWindow, keywordBankWindow) {
+        this.initialize.apply(this, x, y, rowSize, columnSize, displayWindow, keywordBankWindow);
     }
 
     WindowCommandInput.prototype = Object.create(Window_Selectable.prototype);
@@ -402,17 +582,18 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
             '4','5','6','7','8',
             '9',' ',' ',' ','Ok'];
 
-    WindowCommandInput.prototype.initialize = function(displayWindow, rowSize, colSize) {
-        this.m_rowsize = rowSize;
-        this.m_colsize = colSize;
+    WindowCommandInput.prototype.initialize = function(x, y, rowSize, columnSize, displayWindow, keywordBankWindow) {
+        this.m_x = x;
+        this.m_y = y;
+        this.m_rowSize = rowSize;
+        this.m_colSize = columnSize;
     
         var width = this.m_rowsize * 48;
         var height = this.windowHeight();
-        var x = (Graphics.boxWidth - width) / 2;
-        var y = displayWindow.y + displayWindow.height + 8;
         
         Window_Selectable.prototype.initialize.call(this, x, y, width, height);
         this.m_displayWindow = displayWindow;
+        this.m_keywordBankWindow = keywordBankWindow;
         this.m_index = 0;
         this.refresh();
         this.updateCursor();
@@ -580,23 +761,23 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     //
     // The window for displaying a portrait of what you are interacting with.
 
-    function WindowObjectPortrait() {
-        this.initialize.apply(this, arguments);
+    function WindowObjectPortrait(x, y, width, height, imageName) {
+        this.initialize.apply(this, x, y, width, height, imageName);
     }
 
     WindowObjectPortrait.prototype = Object.create(Window_Base.prototype);
     WindowObjectPortrait.prototype.constructor = WindowObjectPortrait;
 
-    WindowObjectPortrait.prototype.initialize = function(x, y, width, height, portraitPath) {
+    WindowObjectPortrait.prototype.initialize = function(x, y, width, height, imageName) {
         Window_Base.prototype.initialize.call(this, x, y, width, height);
-        this.m_portraitPath = portraitPath;
+        this.m_imageName = imageName;
         this.activate();
         this.refresh();
     };
 
     WindowObjectPortrait.prototype.refresh = function (){
         this.contents.clear();
-        var bitmap = ImageManager.loadPicture(this.m_portraitPath);
+        var bitmap = ImageManager.loadPicture(this.m_imageName);
         this.contents.blt(bitmap, 0, 0, bitmap._canvas.width, bitmap._canvas.height, 0, 0, this.width, this.height);
     };
 
@@ -605,8 +786,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     //
     // The window for displaying dialogue.
 
-    function WindowObjectDialogue() {
-        this.initialize.apply(this, arguments);
+    function WindowObjectDialogue(x, y, lineLength, dialogue) {
+        this.initialize.apply(this, x, y, lineLength, dialogue);
     }
 
     WindowObjectDialogue.prototype = Object.create(Window_Base.prototype);
