@@ -3,58 +3,137 @@
 //=============================================================================
 
 /*:
- * @plugindesc v0.0.2 Interact allows the user to interact with something
+ * @plugindesc v0.0.3 Interact allows the user to interact with something
  * @author Atlas
- *
- * @param Text Variable
- * @desc Variable that the Text is saved to.
- * Default 1
- * @default 1
- *
- * @param Max Characters
- * @desc Maximum number of Characters you can input.
- * Default 16
- * @default 16
+ */
+
+ /*
+ * @param Command Display
+ * @parent Settings
+ * @type struct<CommandDisplay>
+ * @desc Length and default command.
+ */
+
+ /* @param Portrait
+ * @parent Settings
+ * @type struct<Portrait>
+ * @desc Default portrait position and size
+ */
+
+ /* @param Dialogue
+ * @parent Settings
+ * @type struct<Dialogue>
+ * @desc Default dialogue position and line length in chars
+ */
+
+ /*~struct~CommandDisplay:
+ * @param Max Length
+ * @type number
+ * @default 12
+ * @decimals 0
+ * @min 1
+ * @max 9999
+ * @desc Maximum length of command word
  * 
- * @param Use Image
- * @desc to use image or not.
- * Default false
- * @default false
- *
- * @param Image Name
- * @desc The Name of the image in /img/pictures  without the .png
- * Default ClipComputer
- * @default ClipComputer
- *
- * @param Default Header
- * @desc The Default name of the Input Window. 
-   Place "" around the text.
- * default "This is a Input Window"
- * @default "This is a Input Window"
+ * @param Default String
+ * @type string
+ * @default
+ * @desc Default command string
+ */
+
+  /*~struct~Portrait:
+ * @param Position X
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc X Position of portrait window
  * 
- * @param Default InputText
- * @desc The Default text for the Input Bar.
- * Place "" around the text.
- * default "InputText"
- * @default "InputText"
- * @help Use Plugin Command: input_command <VariableNumber> <MaxCharacters> <useimg> [ImageName] <InputWindowName> <InputDefaultext>
- * Example: input_command 1 12 true ClipComputer This_is_an_Input_Window Test
- * or input_command 1 12 false This_is_an_Input_Window test  
- *
+ * @param Position Y
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc Y Position of portrait window
+ * 
+ * @param Width
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc Width of portrait window
+ * 
+ * @param Height
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc Height of portrait window
+ * 
+ * @param Portrait Image
+ * @type string
+ * @default ../
+ * @desc Name of image in /img/pictures without the extension
+ */
+
+ /*~struct~Dialogue:
+ * @param Position X
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc X Position of portrait window
+ * 
+ * @param Position Y
+ * @type number
+ * @default 0
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc Y Position of portrait window
+ * 
+ * @param Max Line Characters
+ * @type number
+ * @default 36
+ * @decimals 0
+ * @min 1
+ * @max 9999
+ * @desc Maximum amound of characters per line
  */
 
 var Interact = Interact || {};
 Interact.DefaultParameters = PluginManager.parameters('Interact');
 Interact.Parameters = Interact.Parameters || {};
-Interact.Parameters.CommandDisplay = Interact.Parameters.CommandDisplay || {};
-Interact.Parameters.Portrait = Interact.Parameters.Portrait || {};
-Interact.Parameters.Dialogue = Interact.Parameters.Dialogue || {};
 
 var Imported = Imported || {};
-Imported.Interact = '0.0.2';
+Imported.Interact = '0.0.3';
+
+if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
 
 (function() {
     "use strict";
+
+    //Load default parameters
+    Interact.Parameters.CommandDisplay = {};
+    Interact.Parameters.CommandDisplay = Interact.DefaultParameters['Command Display']['Max Length'] || 0;
+    Interact.Parameters.CommandDisplay = Interact.DefaultParameters['Command Display']['Default String'] || "";
+
+    Interact.Parameters.Portrait = {};
+    Interact.Parameters.Portrait.x = Interact.DefaultParameters.Portrait['Position X'] || 0;
+    Interact.Parameters.Portrait.y = Interact.DefaultParameters.Portrait['Position Y'] || 0;
+    Interact.Parameters.Portrait.width = Interact.DefaultParameters.Portrait['Width'] || 0;
+    Interact.Parameters.Portrait.height  = Interact.DefaultParameters.Portrait['Height'] || 0;
+    Interact.Parameters.Portrait.path  = Interact.DefaultParameters.Portrait['Portait Image'] || "";
+
+    Interact.Parameters.Dialogue = {};
+    Interact.Parameters.Dialogue.x = Interact.DefaultParameters.Dialogue['Position X'] || 0;
+    Interact.Parameters.Dialogue.y = Interact.DefaultParameters.Dialogue['Position Y'] || 0;
+    Interact.Parameters.Dialogue.lineLength = Interact.DefaultParameters.Dialogue['Max Line Characters'] || 0;
 
     Interact.interact = function(portraitPath, dialogue){
         Interact.Parameters.Portrait.path = portraitPath;
