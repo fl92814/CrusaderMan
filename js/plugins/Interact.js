@@ -244,9 +244,9 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     Interact.Parameters.Dialogue.y = Interact.DefaultParameters.Dialogue['Position Y'] || 0;
     Interact.Parameters.Dialogue.lineLength = Interact.DefaultParameters.Dialogue['Max Line Characters'] || 0;
 
-    Interact.interact = function(keywordGroup, portraitPath, dialogue){
+    Interact.interact = function(keywordGroup, imageName, dialogue){
         Interact.Parameters.KeywordBank.keywordGroup = keywordGroup;
-        Interact.Parameters.Portrait.path = portraitPath;
+        Interact.Parameters.Portrait.imageName = imageName;
         Interact.Parameters.Dialogue.dialogue = dialogue;
         SceneManager.push(SceneInteract);
     };
