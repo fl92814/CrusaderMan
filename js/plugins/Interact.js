@@ -10,26 +10,31 @@
  * @parent Settings
  * @type struct<CommandDisplay>
  * @desc Position, max length and default command.
+ * @default {"Position X":"0","Position Y":"0","Max Length":"12","Default String":""}
  *
  * @param Character Input
  * @parent Settings
  * @type struct<CharacterInput>
  * @desc Position, width, and height
+ * @default {"Position X":"0","Position Y":"0","Row Size":"1","Column Size":"1"}
  *
  * @param Keyword Bank
  * @parent Settings
  * @type struct<KeywordBank>
  * @desc Position, max keyword length, and max keywords displayed
+ * @default {"Position X":"0","Position Y":"0","Max Keyword Length":"1","Max Keywords Displayed":"1"}
  *
  * @param Portrait
  * @parent Settings
  * @type struct<Portrait>
  * @desc Default portrait position and size
+ * @default {"Position X":"0","Position Y":"0","Width":"0","Height":"0","Portrait Image":"example"}
  *
  * @param Dialogue
  * @parent Settings
  * @type struct<Dialogue>
  * @desc Default dialogue position and line length in chars
+ * @default {"Position X":"0","Position Y":"0","Max Line Characters":"36"}
  */
 
  /*~struct~CommandDisplay:
