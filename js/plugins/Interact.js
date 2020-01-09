@@ -5,36 +5,28 @@
 /*:
  * @plugindesc v0.0.3 Interact allows the user to interact with something
  * @author Atlas
- */
-
- /*
+ *
  * @param Command Display
  * @parent Settings
  * @type struct<CommandDisplay>
  * @desc Position, max length and default command.
- */
-
- /*
+ *
  * @param Character Input
  * @parent Settings
  * @type struct<CharacterInput>
  * @desc Position, width, and height
- */
-
-/*
+ *
  * @param Keyword Bank
  * @parent Settings
  * @type struct<KeywordBank>
  * @desc Position, max keyword length, and max keywords displayed
- */
-
- /* @param Portrait
+ *
+ * @param Portrait
  * @parent Settings
  * @type struct<Portrait>
  * @desc Default portrait position and size
- */
-
- /* @param Dialogue
+ *
+ * @param Dialogue
  * @parent Settings
  * @type struct<Dialogue>
  * @desc Default dialogue position and line length in chars
