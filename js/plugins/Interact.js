@@ -319,8 +319,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
 
     SceneInteract.prototype.create = function() {
         Scene_MenuBase.prototype.create.call(this);
-        this.createCommandDisplayWindow();
         this.createKeywordBankWindow();
+        this.createCommandDisplayWindow();
         this.createCommandInputWindow();
         this.createObjectPortraitWindow();
         this.createObjectDialogueWindow();
@@ -329,12 +329,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     SceneInteract.prototype.start = function() {
         Scene_MenuBase.prototype.start.call(this);
         this.m_commandDisplayWindow.refresh();
-    };
-
-    SceneInteract.prototype.createCommandDisplayWindow = function() {
-        this.m_commandDisplayWindow = new WindowCommandDisplay(Interact.Parameters.CommandDisplay.x, Interact.Parameters.CommandDisplay.y, 
-            Interact.Parameters.CommandDisplay.maxLength, Interact.Parameters.CommandDisplay.defaultString);
-        this.addWindow(this.m_commandDisplayWindow);
+        this.m_commandInputWindow.activate();
+        this.m_keywordBankWindow.deactivate();
     };
 
     SceneInteract.prototype.createKeywordBankWindow = function() {
@@ -343,11 +339,19 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         this.addWindow(this.m_keywordBankWindow);
     };
 
+    SceneInteract.prototype.createCommandDisplayWindow = function() {
+        this.m_commandDisplayWindow = new WindowCommandDisplay(Interact.Parameters.CommandDisplay.x, Interact.Parameters.CommandDisplay.y, 
+            Interact.Parameters.CommandDisplay.maxLength, Interact.Parameters.CommandDisplay.defaultString, this.m_keywordBankWindow);
+        this.addWindow(this.m_commandDisplayWindow);
+        this.m_keywordBankWindow.registerCommandDisplayWindow(this.m_commandDisplayWindow);
+    };
+
     SceneInteract.prototype.createCommandInputWindow = function() {
         this.m_commandInputWindow = new WindowCommandInput(Interact.Parameters.CharInput.x, Interact.Parameters.CharInput.y,
             Interact.Parameters.CharInput.rowSize, Interact.Parameters.CharInput.columnSize, this.m_commandDisplayWindow, this.m_keywordBankWindow);
         this.m_commandInputWindow.setHandler('ok', this.commandInputComplete.bind(this));
         this.addWindow(this.m_commandInputWindow);
+        this.m_keywordBankWindow.registerCommandInputWindow(this.m_commandInputWindow);
     };
 
     SceneInteract.prototype.createObjectPortraitWindow = function() {
@@ -387,14 +391,23 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         this.m_maxKeywordLength = maxKeywordLength;
         this.m_maxKeywords = maxKeywords;
         this.m_keywordGroup = keywordGroup;
+        this.m_commandInputWindow = null;
+        this.m_commandDisplayWindow = null;
         this.m_index = 0;
-        this.m_keywordIndex = 0;
-        this.m_keywords = KeywordBank.getUnlockedKeywords(keywordGroup);
+        this.m_topKeywordIndex = 0;
+        this.m_keywordList = KeywordBank.getUnlockedKeywords(keywordGroup);
 
         Window_Selectable.prototype.initialize.call(this, x, y, this.windowWidth(), this.windowHeight());
 
-        this.activate();
         this.refresh();
+    };
+
+    WindowKeywordBank.prototype.registerCommandInputWindow = function(commandInputWindow){
+        this.m_commandInputWindow = commandInputWindow;
+    };
+
+    WindowKeywordBank.prototype.registerCommandInputWindow = function(commandDisplayWindow){
+        this.m_commandDisplayWindow = commandDisplayWindow;
     };
 
     WindowKeywordBank.prototype.windowWidth = function() {
@@ -412,7 +425,13 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     }
 
     WindowKeywordBank.prototype.drawKeywords = function() {
-        
+        for(var i = 0; i < this.m_maxKeywords && i < this.m_keywordList.length; ++i){
+            this.drawKeyword(i, this.m_keywordList[this.m_topKeywordIndex + i]);
+        }
+    };
+
+    WindowKeywordBank.prototype.drawKeyword = function(windowIndex, keyword){
+        this.drawText(keyword, 0, windowIndex * this.fittingHeight(1), this.windowWidth());
     };
 
     WindowKeywordBank.prototype.updateCursor = function() {
@@ -429,25 +448,76 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         };
     };
 
+    WindowKeywordBank.prototype.setKeywordListFilter = function(filter) {
+        this.m_keywordList = KeywordBank.getUnlockedKeywordsFiltered(filter);
+        this.refresh();
+    };
 
+    WindowKeywordBank.prototype.activate = function() {
+        Window_Selectable.activate.call(this);
+        this.m_index = 0;
+        this.m_topKeywordIndex = 0;
+        this.refresh();
+    };
+
+    WindowKeywordBank.prototype.deactivate = function() {
+        Window_Selectable.deactivate.call(this);
+        this.m_index = 0;
+        this.m_topKeywordIndex = 0;
+        this.refresh();
+    };
+
+    WindowKeywordBank.prototype.processHandling = function () {
+        if (this.isOpenAndActive()) {
+            if (Imported.Quasi_Input || Imported.QInput) {
+                if (Input.isTriggered('#enter')) {
+                    this.deactivate();
+                    if (this.m_commandDisplayWindow)
+                        this.m_commandDisplayWindow.displayString(this.selectedKeyword());
+                    if (this.m_commandInputWindow){
+                        this.m_commandInputWindow.activate();
+                        this.m_commandInputWindow.processJump();
+                    }
+                    return;
+                }
+                if (Input.isTriggered('#tab')) {
+                    this.deactivate();
+                    if (this.m_commandInputWindow)
+                        this.m_commandInputWindow.activate();
+                    return;
+                }
+            } else {
+                if (Input.isTriggered('shift')) {
+                    this.processJump();
+                }
+                if (Input.isRepeated('cancel')) {
+                    this.processBack();
+                }
+                if (Input.isRepeated('ok')) {
+                    this.processOk();
+                }
+            }
+        }
+    };
 
     //-----------------------------------------------------------------------------
     // WindowCommandDisplay
     //
     // The window for editing the Text on the input screen.
 
-    function WindowCommandDisplay(x, y, maxLength, defaultCommandString) {
-        this.initialize.call(this, x, y, maxLength, defaultCommandString);
+    function WindowCommandDisplay(x, y, maxLength, defaultCommandString, keywordBankWindow) {
+        this.initialize.call(this, x, y, maxLength, defaultCommandString, keywordBankWindow);
     }
 
     WindowCommandDisplay.prototype = Object.create(Window_Base.prototype);
     WindowCommandDisplay.prototype.constructor = WindowCommandDisplay;
 
-    WindowCommandDisplay.prototype.initialize = function(x, y, maxLength, defaultText) {
+    WindowCommandDisplay.prototype.initialize = function(x, y, maxLength, defaultText, keywordBankWindow) {
         this.m_x = x;
         this.m_y = y;
         this.m_maxLength = maxLength;
         this.m_defaultText = defaultText;
+        this.m_keywordBankWindow = keywordBankWindow;
         this.m_text = this.m_defaultText.slice(0, maxLength);
 
         var width = this.windowWidth();
@@ -558,6 +628,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         }
         var rect = this.itemRect(this.index());
         this.setCursorRect(rect.x, rect.y, rect.width, rect.height);
+        this.m_keywordBankWindow.setKeywordListFilter(this.m_text);
     };
 
     //-----------------------------------------------------------------------------
@@ -683,9 +754,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     };
 
     WindowCommandInput.prototype.processHandling = function () {
-        if (this.isOpen() && this.active) {
+        if (this.isOpenAndActive()) {
             if (Imported.Quasi_Input || Imported.QInput) {
-                console.log("This is printed out!")
                 if (Input.isTriggered('#enter')) {
                     this.onTextOk();
                     return;
@@ -694,13 +764,17 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
                     this.processOk();
                     return;
                 }
+                if (Input.isTriggered('#tab')){
+                    this.deactivate();
+                    this.m_keywordBankWindow.activate();
+                }
                 if (Input.anyTriggered("a-z0-9")) {
                     this.m_displayWindow.pushBack(Input._lastPressed);
                 }
                 if (Input.isRepeated('#backspace')) {
                     this.processBack();
                 }
-    
+                
             } else {
                 if (Input.isTriggered('shift')) {
                     this.processJump();
