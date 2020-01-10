@@ -368,8 +368,13 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
 
     SceneInteract.prototype.commandInputComplete = function() {
         var str = this.m_commandDisplayWindow.finaltext();
-        var re = new RegExp(str, "i");
-        $gameVariables.setValue(Interact.Parameters.varId, re.source);
+        if (!KeywordBank.exists(str) || KeywordBank.locked(str))
+        {
+            SoundManager.playBuzzer();
+            return;
+        }
+
+        $gameVariables.setValue(Interact.Parameters.varId, str);
         this.popScene();
     };
 
