@@ -454,14 +454,14 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     };
 
     WindowKeywordBank.prototype.activate = function() {
-        Window_Selectable.activate.call(this);
+        Window_Selectable.prototype.activate.call(this);
         this.m_index = 0;
         this.m_topKeywordIndex = 0;
         this.refresh();
     };
 
     WindowKeywordBank.prototype.deactivate = function() {
-        Window_Selectable.deactivate.call(this);
+        Window_Selectable.prototype.deactivate.call(this);
         this.m_index = 0;
         this.m_topKeywordIndex = 0;
         this.refresh();
