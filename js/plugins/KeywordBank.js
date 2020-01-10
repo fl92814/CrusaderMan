@@ -95,7 +95,7 @@ var KeywordBank = KeywordBank || {};
 
     KeywordBank.getUnlockedKeywords = function (group){
         var unlockedKeywords = {};
-        var keywordGroup = Keywordbank.KeywordGroups[group];
+        var keywordGroup = KeywordBank.KeywordGroups[group];
         if (keywordGroup){
             for(const keyword of keywordGroup){
                 if (!keyword.locked)
@@ -105,9 +105,9 @@ var KeywordBank = KeywordBank || {};
         return unlockedKeywords;
     };
 
-    KeywordBank.getUnlockedKeywords = function (group, filter){
+    KeywordBank.getUnlockedKeywordsFiltered = function (group, filter){
         var unlockedKeywords = {};
-        var keywordGroup = Keywordbank.KeywordGroups[group];
+        var keywordGroup = KeywordBank.KeywordGroups[group];
         if (keywordGroup){
             for(const keyword of keywordGroup){
                 if (!keyword.locked){
