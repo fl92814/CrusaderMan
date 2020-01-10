@@ -406,7 +406,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         this.m_commandInputWindow = commandInputWindow;
     };
 
-    WindowKeywordBank.prototype.registerCommandInputWindow = function(commandDisplayWindow){
+    WindowKeywordBank.prototype.registerCommandDisplayWindow = function(commandDisplayWindow){
         this.m_commandDisplayWindow = commandDisplayWindow;
     };
 
