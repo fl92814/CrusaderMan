@@ -416,7 +416,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     };
 
     WindowKeywordBank.prototype.windowWidth = function() {
-        return this.m_maxKeywordLength * 20 + 4;
+        return this.m_maxKeywordLength * 12;
     };
 
     WindowKeywordBank.prototype.windowHeight = function() {
@@ -436,7 +436,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     };
 
     WindowKeywordBank.prototype.drawKeyword = function(windowIndex, keyword){
-        this.drawText(keyword, 0, windowIndex * this.fittingHeight(1), this.windowWidth());
+        this.drawText(keyword, 0, windowIndex * this.lineHeight(), this.windowWidth());
     };
 
     WindowKeywordBank.prototype.updateCursor = function() {
@@ -446,15 +446,15 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
 
     WindowKeywordBank.prototype.itemRect = function(index) {
         return {
-            x: 5,
+            x: 0,
             y: index * this.lineHeight(),
-            width: 20 * this.m_maxKeywordLength,
+            width: 12 * this.m_maxKeywordLength,
             height: this.lineHeight()
         };
     };
 
     WindowKeywordBank.prototype.setKeywordListFilter = function(filter) {
-        this.m_keywordList = KeywordBank.getUnlockedKeywordsFiltered(filter);
+        this.m_keywordList = KeywordBank.getUnlockedKeywordsFiltered(this.m_keywordGroup, filter);
         this.refresh();
     };
 

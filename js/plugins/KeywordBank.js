@@ -55,10 +55,13 @@ var KeywordBank = KeywordBank || {};
         var groups = JSON.parse(KeywordBank.Params['Database']);
         for (var i=0; i<groups.length; i++) {
             var group = JSON.parse(groups[i]);
-            for(var j = 0; j < group.length; ++i){
-                var keyword = JSON.parse(group[j]);
+            var realGroup = JSON.parse(group.group);
+            KeywordBank.KeywordGroups[group.name] = {};
+            for(var j = 0; j < realGroup.length; ++j){
+                var keyword = JSON.parse(realGroup[j]);
                 keyword.locked = keyword.locked === "true";
-                KeywordBank.KeywordGroups[group.name] = {};
+                if (keyword.alias != "")
+                    keyword.alias = JSON.parse(keyword.alias);
                 KeywordBank.KeywordGroups[group.name][keyword.name] = keyword;
             }
         }
@@ -94,29 +97,32 @@ var KeywordBank = KeywordBank || {};
     }
 
     KeywordBank.getUnlockedKeywords = function (group){
-        var unlockedKeywords = {};
+        var unlockedKeywords = [];
         var keywordGroup = KeywordBank.KeywordGroups[group];
         if (keywordGroup){
-            for(const keyword of keywordGroup){
+            for(const keywordKey in keywordGroup){
+                var keyword = keywordGroup[keywordKey];
                 if (!keyword.locked)
-                    unlockedKeywords.push(keyword.name);
+                    unlockedKeywords.push(keyword.display);
             }
         }
         return unlockedKeywords;
     };
 
     KeywordBank.getUnlockedKeywordsFiltered = function (group, filter){
-        var unlockedKeywords = {};
+        var unlockedKeywords = [];
+        filter = filter.toLowerCase();
         var keywordGroup = KeywordBank.KeywordGroups[group];
         if (keywordGroup){
-            for(const keyword of keywordGroup){
+            for(const keywordKey in keywordGroup){
+                var keyword = keywordGroup[keywordKey]
                 if (!keyword.locked){
                     if (keyword.name.startsWith(filter))
-                        unlockedKeywords.push(keyword.name);
+                        unlockedKeywords.push(keyword.display);
                     else{
                         for(const alias of keyword.alias){
                             if (alias.startsWith(filter))
-                                unlockedKeywords.push(keyword.name);
+                                unlockedKeywords.push(keyword.display);
                         }
                     }
                 }
