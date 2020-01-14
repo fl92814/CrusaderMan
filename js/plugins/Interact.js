@@ -472,6 +472,40 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         this.refresh();
     };
 
+    WindowCommandInput.prototype.cursorDown = function(wrap) {
+        if (this.m_index < this.m_maxKeywords){
+            this.m_index += 1;
+        }
+    };
+
+    WindowCommandInput.prototype.cursorUp = function(wrap) {
+        if (this.m_index > 0)
+            this.m_index -= 1;
+    };
+
+    WindowCommandInput.prototype.cursorRight = function(wrap) {
+        if (this.m_index % this.m_rowSize < this.m_rowSize - 1) {
+            this.m_index++;
+        } 
+        else if (wrap) {
+            this.m_index -= this.m_rowSize - 1;
+        }
+    };
+    
+    WindowCommandInput.prototype.cursorLeft = function(wrap) {
+        if (this.m_index % this.m_rowSize > 0) {
+            this.m_index--;
+        } 
+        else if (wrap) {
+            this.m_index += this.m_rowSize - 1;
+        }
+    };
+
+    WindowCommandInput.prototype.processCursorMove = function() {
+        Window_Selectable.prototype.processCursorMove.call(this);
+        this.updateCursor();
+    };
+
     WindowKeywordBank.prototype.processHandling = function () {
         if (this.isOpenAndActive()) {
             if (Imported.Quasi_Input || Imported.QInput) {
