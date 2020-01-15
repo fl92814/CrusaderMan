@@ -80,21 +80,21 @@ Game_Interpreter.prototype.pluginCommand = function(command, args) {
 
                 }
 			}
-				SceneManager.push(Scene_Input);
-			}
-			else{
-				Darkkitten.Param.varId = Number(Darkkitten.Parameters['Text Variable']);
-				Darkkitten.Param.maxLength = Number(Darkkitten.Parameters['Max Characters']);
-				Darkkitten.Param.defaultPromptText = String(Darkkitten.Parameters['Default Header']);
-                Darkkitten.Param.defaultInputText = String(Darkkitten.Parameters['Default InputText']);
-				if (Darkkitten.Param.UseImage === "true")
-				{
-					Darkkitten.Param.defImage = Darkkitten.Parameters['Image Name'];
-				} 
-				Darkkitten.Param.Def = "true";
-				SceneManager.push(Scene_Input);
-			}
-      }
+			SceneManager.push(Scene_Input);
+		}
+        else{
+            Darkkitten.Param.varId = Number(Darkkitten.Parameters['Text Variable']);
+            Darkkitten.Param.maxLength = Number(Darkkitten.Parameters['Max Characters']);
+            Darkkitten.Param.defaultPromptText = String(Darkkitten.Parameters['Default Header']);
+            Darkkitten.Param.defaultInputText = String(Darkkitten.Parameters['Default InputText']);
+            if (Darkkitten.Param.UseImage === "true")
+            {
+                Darkkitten.Param.defImage = Darkkitten.Parameters['Image Name'];
+            } 
+            Darkkitten.Param.Def = "true";
+            SceneManager.push(Scene_Input);
+        }
+    }
 };
 
 //------------------------------------------------------------------------
