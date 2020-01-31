@@ -6,6 +6,15 @@
  * @plugindesc v0.0.3 Interact allows the user to interact with something
  * @author Atlas
  *
+ * @param Variable ID
+ * @parent Settings
+ * @type number
+ * @default 69
+ * @decimals 0
+ * @min 0
+ * @max 9999
+ * @desc Variable ID where input is returned
+ * 
  * @param Command Display
  * @parent Settings
  * @type struct<CommandDisplay>
@@ -219,6 +228,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     Interact.DefaultParameters['Portrait'] = JSON.parse(Interact.DefaultParameters['Portrait']);
     Interact.DefaultParameters['Dialogue'] = JSON.parse(Interact.DefaultParameters['Dialogue']);
 
+    Interact.Parameters.variableId = JSON.parse(Interact.DefaultParameters['Variable ID']) || 69;
+
     //Load default parameters
     Interact.Parameters.CommandDisplay = {};
     Interact.Parameters.CommandDisplay.x = parseInt(Interact.DefaultParameters['Command Display']['Position X']) || 0;
@@ -373,7 +384,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
             return;
         }
 
-        $gameVariables.setValue(Interact.Parameters.varId, str);
+        $gameVariables.setValue(Interact.Parameters.variableId, str);
         this.popScene();
     };
 
