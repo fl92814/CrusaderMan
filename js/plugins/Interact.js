@@ -228,7 +228,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     Interact.DefaultParameters['Portrait'] = JSON.parse(Interact.DefaultParameters['Portrait']);
     Interact.DefaultParameters['Dialogue'] = JSON.parse(Interact.DefaultParameters['Dialogue']);
 
-    Interact.Parameters.variableId = JSON.parse(Interact.DefaultParameters['Variable ID']) || 69;
+    Interact.Parameters.variableId = 13;
 
     //Load default parameters
     Interact.Parameters.CommandDisplay = {};
@@ -378,7 +378,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
 
     SceneInteract.prototype.commandInputComplete = function() {
         var str = this.m_commandDisplayWindow.finaltext();
-        if (!KeywordBank.exists(str) || KeywordBank.locked(str))
+        if (!KeywordBank.exists(str, Interact.Parameters.KeywordBank.keywordGroup) || KeywordBank.locked(str, Interact.Parameters.KeywordBank.keywordGroup))
         {
             SoundManager.playBuzzer();
             return;
