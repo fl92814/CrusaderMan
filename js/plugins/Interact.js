@@ -228,7 +228,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     Interact.DefaultParameters['Portrait'] = JSON.parse(Interact.DefaultParameters['Portrait']);
     Interact.DefaultParameters['Dialogue'] = JSON.parse(Interact.DefaultParameters['Dialogue']);
 
-    Interact.Parameters.variableId = 13;
+    Interact.Parameters.variableId = parseInt(Interact.DefaultParameters['Variable ID']);
 
     //Load default parameters
     Interact.Parameters.CommandDisplay = {};
