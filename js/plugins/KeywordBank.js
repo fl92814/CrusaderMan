@@ -149,16 +149,16 @@ var KeywordBank = KeywordBank || {};
     var Old_DataManager_makeSaveContents = DataManager.makeSaveContents;
     DataManager.makeSaveContents = function() {
         var contents = Old_DataManager_makeSaveContents();
-        contents.actionKeywords = $.KeywordList;
-        console.log($keywordList);
+        contents.keywordBank = KeywordBank;
+        console.log(KeywordBank);
         return contents;
     };
 
 
     var Old_DataManager_extractSaveContents = DataManager.extractSaveContents;
     DataManager.extractSaveContents = function(contents) {
-        $.KeywordList = contents.actionKeywords;
-        console.log($keywordList);
+        KeywordBank = contents.keywordBank;
+        console.log(KeywordBank);
         Old_DataManager_extractSaveContents(contents);
     };
 })();
