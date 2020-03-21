@@ -570,7 +570,6 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     };
 
     WindowCommandDisplay.prototype.finaltext = function() {
-        console.log(this.m_text);
         return this.m_text;
     };
 
