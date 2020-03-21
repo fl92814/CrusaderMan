@@ -51,21 +51,26 @@ var KeywordBank = KeywordBank || {};
 
     KeywordBank.Params = PluginManager.parameters('KeywordBank');
 
-    if ((KeywordBank.Params['Database'])){
-        var groups = JSON.parse(KeywordBank.Params['Database']);
-        for (var i=0; i<groups.length; i++) {
-            var group = JSON.parse(groups[i]);
-            var realGroup = JSON.parse(group.group);
-            KeywordBank.KeywordGroups[group.name] = {};
-            for(var j = 0; j < realGroup.length; ++j){
-                var keyword = JSON.parse(realGroup[j]);
-                keyword.locked = keyword.locked === "true";
-                if (keyword.alias != "")
-                    keyword.alias = JSON.parse(keyword.alias);
-                KeywordBank.KeywordGroups[group.name][keyword.name] = keyword;
+    KeywordBank.resetToDefault = function (){
+        KeywordBank.KeywordGroups = {};
+        if ((KeywordBank.Params['Database'])){
+            var groups = JSON.parse(KeywordBank.Params['Database']);
+            for (var i=0; i<groups.length; i++) {
+                var group = JSON.parse(groups[i]);
+                var realGroup = JSON.parse(group.group);
+                KeywordBank.KeywordGroups[group.name] = {};
+                for(var j = 0; j < realGroup.length; ++j){
+                    var keyword = JSON.parse(realGroup[j]);
+                    keyword.locked = keyword.locked === "true";
+                    if (keyword.alias != "")
+                        keyword.alias = JSON.parse(keyword.alias);
+                    KeywordBank.KeywordGroups[group.name][keyword.name] = keyword;
+                }
             }
         }
-    }
+    };
+
+    KeywordBank.resetToDefault();
 
     KeywordBank.exists = function (keyword, group){
         if (KeywordBank.KeywordGroups.hasOwnProperty(group))
@@ -131,6 +136,12 @@ var KeywordBank = KeywordBank || {};
         return unlockedKeywords;
     };
 
+    var old_setupNewGameFunction = DataManager.setupNewGame;
+    DataManager.setupNewGame = function () {
+        old_setupNewGameFunction.call(this);
+        KeywordBank.resetToDefault();
+    };
+
     var old_pluginCommand = Game_Interpreter.prototype.pluginCommand;
     Game_Interpreter.prototype.pluginCommand = function(pluginCommand, args) {
         old_pluginCommand.call(this, pluginCommand, args);
@@ -150,7 +161,6 @@ var KeywordBank = KeywordBank || {};
     DataManager.makeSaveContents = function() {
         var contents = Old_DataManager_makeSaveContents();
         contents.KeywordGroups = KeywordBank.KeywordGroups;
-        console.log(contents.KeywordGroups);
         return contents;
     };
 
@@ -158,7 +168,6 @@ var KeywordBank = KeywordBank || {};
     var Old_DataManager_extractSaveContents = DataManager.extractSaveContents;
     DataManager.extractSaveContents = function(contents) {
         KeywordBank.KeywordGroups = contents.KeywordGroups;
-        console.log(KeywordBank.KeywordGroups);
         Old_DataManager_extractSaveContents(contents);
     };
 })();
