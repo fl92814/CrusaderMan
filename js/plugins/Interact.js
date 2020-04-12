@@ -335,6 +335,29 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         this.createCommandInputWindow();
         this.createObjectPortraitWindow();
         this.createObjectDialogueWindow();
+        this.remappedKeys = [];
+        if (Imported.QInput)
+        {
+            this.remapWASD();
+        }
+    };
+
+    SceneInteract.prototype.remapWASD = function () {
+        if (QInput.removeKeyFromMapping('#w', 'up'))
+            this.remappedKeys.push(['#w', 'up']);
+        if (QInput.removeKeyFromMapping('#a', 'left'))
+            this.remappedKeys.push(['#a', 'left']);
+        if (QInput.removeKeyFromMapping('#s', 'down'))
+            this.remappedKeys.push(['#s', 'down']);
+        if (QInput.removeKeyFromMapping('#d', 'right'))
+            this.remappedKeys.push(['#d', 'right']);
+    };
+
+    SceneInteract.prototype.undoRemapWASD = function () {
+        for(var index = 0; index < this.remappedKeys.length; index++) {
+            QInput.addKeyToMapping(this.remappedKeys[index][0], this.remappedKeys[index][1]);
+        }
+        this.remappedKeys = [];
     };
 
     SceneInteract.prototype.start = function() {
@@ -384,6 +407,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
             return;
         }
 
+        this.undoRemapWASD();
         $gameVariables.setValue(Interact.Parameters.variableId, str);
         this.popScene();
     };
@@ -864,7 +888,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     WindowCommandInput.prototype.processOk = function() {
         if (this.character()) {
             this.onTextAdd();
-        } else if (this.isOk()) {
+        }
+        else {
             this.onTextOk();
         }
     };

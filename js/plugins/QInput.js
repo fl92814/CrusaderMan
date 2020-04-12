@@ -382,6 +382,22 @@ function QInput() {
     }
   };
 
+  QInput.removeKeyFromMapping = function (key, mapping) {
+    var index = QInput.remapped[mapping].indexOf(key);
+    if (index >= 0)
+    {
+      QInput.remapped[mapping].splice(index, 1);
+      ConfigManager.keys = JSON.parse(JSON.stringify(QInput.remapped));
+      return true;
+    }
+    return false;
+  };
+
+  QInput.addKeyToMapping = function (key, mapping) {
+    QInput.removeKeyFromMapping(key, mapping);
+    QInput.remapped[mapping].push(key);
+    ConfigManager.keys = JSON.parse(JSON.stringify(QInput.remapped));
+  };
   // you can create custom remap keys by aliasing this function
   // using "QInput.remap" without the public. Just add a similar if statement
   // or switch. You will need to initialize your custom key by doing something like:
