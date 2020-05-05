@@ -64,7 +64,7 @@ var KeywordBank = KeywordBank || {};
                     keyword.locked = keyword.locked === "true";
                     if (keyword.alias != "")
                         keyword.alias = JSON.parse(keyword.alias);
-                    KeywordBank.KeywordGroups[group.name][keyword.name] = keyword;
+                    KeywordBank.KeywordGroups[group.name][keyword.name.toLowerCase()] = keyword;
                 }
             }
         }
@@ -74,13 +74,13 @@ var KeywordBank = KeywordBank || {};
 
     KeywordBank.exists = function (keyword, group){
         if (KeywordBank.KeywordGroups.hasOwnProperty(group))
-            return KeywordBank.KeywordGroups[group].hasOwnProperty(keyword);
+            return KeywordBank.KeywordGroups[group].hasOwnProperty(keyword.toLowerCase());
         return false;
     }
 
     KeywordBank.unlock = function (keyword, group){
         if (KeywordBank.exists(keyword, group)){
-            KeywordBank.KeywordGroups[group][keyword].locked = false;
+            KeywordBank.KeywordGroups[group][keyword.toLowerCase()].locked = false;
             return true;
         }
         return false;
@@ -88,7 +88,7 @@ var KeywordBank = KeywordBank || {};
 
     KeywordBank.lock = function (keyword, group){
         if (KeywordBank.exists(keyword, group)){
-            KeywordBank.KeywordGroups[group][keyword].locked = false;
+            KeywordBank.KeywordGroups[group][keyword.toLowerCase()].locked = true;
             return true;
         }
         return false;
@@ -96,7 +96,7 @@ var KeywordBank = KeywordBank || {};
 
     KeywordBank.locked = function (keyword, group){
         if (KeywordBank.exists(keyword, group)){
-            return KeywordBank.KeywordGroups[group][keyword].locked;
+            return KeywordBank.KeywordGroups[group][keyword.toLowerCase()].locked;
         }
         return true;
     }
