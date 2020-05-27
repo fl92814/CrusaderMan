@@ -24,5 +24,6 @@ null,
 {"id":22,"animationId":0,"description":"A stock sword.","etypeId":1,"traits":[{"code":31,"dataId":1,"value":0},{"code":22,"dataId":0,"value":0}],"iconIndex":64,"name":"Longestsword","note":"","params":[0,0,8,0,0,0,0,0],"price":1600,"wtypeId":1},
 {"id":23,"animationId":0,"description":"A stock sword.","etypeId":1,"traits":[{"code":31,"dataId":1,"value":0},{"code":22,"dataId":0,"value":0}],"iconIndex":64,"name":"Broadestsword","note":"","params":[0,0,9,0,0,0,0,0],"price":2000,"wtypeId":1},
 {"id":24,"animationId":0,"description":"A stock sword.","etypeId":1,"traits":[{"code":31,"dataId":1,"value":0},{"code":22,"dataId":0,"value":0}],"iconIndex":64,"name":"Greatestsword","note":"","params":[0,0,10,0,0,0,0,0],"price":2500,"wtypeId":1},
-{"id":25,"animationId":0,"description":"","etypeId":1,"traits":[{"code":31,"dataId":1,"value":0},{"code":22,"dataId":0,"value":0}],"iconIndex":0,"name":"","note":"","params":[0,0,0,0,0,0,0,0],"price":0,"wtypeId":0}
+{"id":25,"animationId":0,"description":"An uncommon sword. Imbued with Water.","etypeId":1,"traits":[{"code":31,"dataId":5,"value":0},{"code":22,"dataId":0,"value":0}],"iconIndex":65,"name":"Splashblade","note":"","params":[0,0,11,0,0,0,0,0],"price":2500,"wtypeId":1},
+{"id":26,"animationId":0,"description":"An uncommon sword. Imbued with Wind.","etypeId":1,"traits":[{"code":31,"dataId":7,"value":0},{"code":22,"dataId":0,"value":0}],"iconIndex":65,"name":"Gustblade","note":"","params":[0,0,11,0,0,0,0,0],"price":2500,"wtypeId":1}
 ]

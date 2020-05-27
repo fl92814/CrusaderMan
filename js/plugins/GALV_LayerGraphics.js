@@ -509,6 +509,9 @@ Game_Map.prototype.initialize = function() {
 
 Galv.LG.Game_Map_setup = Game_Map.prototype.setup;
 Game_Map.prototype.setup = function(mapId) {
+    if (typeof this.layerSettings == "undefined")
+        Game_Map.prototype.initialize.call(this); // Workaround if loading a save that never initialized layers
+    
 	Galv.LG.Game_Map_setup.call(this,mapId);
 	this.layerSettings[mapId] = this.layerSettings[mapId] || {}
 
