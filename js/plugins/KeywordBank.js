@@ -126,8 +126,10 @@ var KeywordBank = KeywordBank || {};
                         unlockedKeywords.push(keyword.display);
                     else{
                         for(const alias of keyword.alias){
-                            if (alias.startsWith(filter))
+                            if (alias.startsWith(filter)){
                                 unlockedKeywords.push(keyword.display);
+                                break;
+                            }
                         }
                     }
                 }
