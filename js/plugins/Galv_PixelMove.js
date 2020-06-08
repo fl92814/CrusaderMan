@@ -847,7 +847,7 @@ Game_Player.prototype.getOnVehicle = function() {
         } else {
 			Galv.PMOVE.center();
 		}
-		this._normMove = false;
+		this._normMove = true;
         this.gatherFollowers();
     }
     return this._vehicleGettingOn;

@@ -70,8 +70,6 @@ var KeywordBank = KeywordBank || {};
         }
     };
 
-    KeywordBank.resetToDefault();
-
     KeywordBank.exists = function (keyword, group){
         if (KeywordBank.KeywordGroups.hasOwnProperty(group))
             return KeywordBank.KeywordGroups[group].hasOwnProperty(keyword.toLowerCase());
@@ -162,14 +160,41 @@ var KeywordBank = KeywordBank || {};
     var Old_DataManager_makeSaveContents = DataManager.makeSaveContents;
     DataManager.makeSaveContents = function() {
         var contents = Old_DataManager_makeSaveContents();
-        contents.KeywordGroups = KeywordBank.KeywordGroups;
+        
+        contents.KeywordGroups = {};
+        
+        // save just the locked status of each keyword
+        for (var group in KeywordBank.KeywordGroups) {
+            contents.KeywordGroups[group] = {}
+            for (var keyword in KeywordBank.KeywordGroups[group]) {
+                contents.KeywordGroups[group][keyword] = KeywordBank.KeywordGroups[group][keyword].locked;
+            }
+        }
+        
         return contents;
     };
 
 
     var Old_DataManager_extractSaveContents = DataManager.extractSaveContents;
     DataManager.extractSaveContents = function(contents) {
-        KeywordBank.KeywordGroups = contents.KeywordGroups;
+        if (!KeywordBank.KeywordGroups)
+            KeywordBank.resetToDefault();
+        
+        // update keyword bank from saved contents
+        for (var group in KeywordBank.KeywordGroups) {
+            if (contents.KeywordGroups.hasOwnProperty(group)) {
+                for (var keyword in KeywordBank.KeywordGroups[group]) {
+                    if (contents.KeywordGroups[group].hasOwnProperty(keyword)) {
+                        var kwInfo = contents.KeywordGroups[group][keyword];
+                        if (typeof kwInfo === "boolean")
+                            KeywordBank.KeywordGroups[group][keyword].locked = kwInfo;
+                        else
+                            KeywordBank.KeywordGroups[group][keyword].locked = kwInfo.locked;
+                    }
+                }
+            }
+        }
+        
         Old_DataManager_extractSaveContents(contents);
     };
 })();
