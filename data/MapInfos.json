@@ -143,7 +143,7 @@ null,
 {"id":141,"expanded":false,"name":"Magma Forge","order":146,"parentId":0,"scrollX":819,"scrollY":459},
 {"id":142,"expanded":true,"name":"Forgotten Crypt","order":62,"parentId":42,"scrollX":832,"scrollY":640},
 {"id":143,"expanded":false,"name":"Forgotten Crypt 2","order":63,"parentId":142,"scrollX":819,"scrollY":459},
-{"id":144,"expanded":true,"name":"Forgotten Crypt 3","order":64,"parentId":142,"scrollX":832,"scrollY":640},
-{"id":145,"expanded":true,"name":"Forgotten Crypt 4","order":65,"parentId":144,"scrollX":832,"scrollY":640},
+{"id":144,"expanded":true,"name":"Forgotten Crypt 3","order":64,"parentId":142,"scrollX":819,"scrollY":466},
+{"id":145,"expanded":true,"name":"Forgotten Crypt 4","order":65,"parentId":144,"scrollX":819,"scrollY":466},
 {"id":146,"expanded":false,"name":"Forgotten Crypt 5","order":66,"parentId":145,"scrollX":819,"scrollY":459}
 ]
