@@ -566,6 +566,10 @@ VictorEngine.SFont = VictorEngine.SFont || {};
 	ImageManager.loadSFont = function(filename, hue) {
 		return this.loadBitmap('img/sfonts/', filename, hue, true);
 	};
+    
+	ImageManager.reserveSFont = function(filename, hue) {
+		return this.reserveBitmap('img/sfonts/', filename, hue, true);
+	};
 	
 	//=============================================================================
 	// Bitmap
@@ -625,7 +629,7 @@ VictorEngine.SFont = VictorEngine.SFont || {};
 	};
 
 	Bitmap.prototype.drawSFontTextBody = function(text, tx, ty) {
-		var bitmap = ImageManager.loadSFont(this.sfont.name);
+		var bitmap = this.sfont.bitmap;
 		bitmap.paintOpacity = this.paintOpacity;
 		text.split("").forEach(function(glyph) {
 			var value = this.sfont.values(glyph);
@@ -706,7 +710,7 @@ VictorEngine.SFont = VictorEngine.SFont || {};
 	SFont.prototype.initialize = function(name, hue, space) {
 		this._name   = name;
 		this._space  = space;
-		this._bitmap = ImageManager.loadSFont(name, hue);
+		this._bitmap = ImageManager.reserveSFont(name, hue);
 		this._bitmap.addLoadListener( function() { this.prepare() }.bind(this) );
 	};
 		
