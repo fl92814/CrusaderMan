@@ -516,6 +516,27 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         return this.m_keywordList[this._index];
     };
 
+    WindowKeywordBank.prototype.processCursorMove = function() {
+        if (this.isCursorMovable()) {
+            var lastIndex = this.index();
+            if (Input.isRepeated('down')||Input.isRepeated('#s')) {
+                this.cursorDown(Input.isTriggered('down')||Input.isTriggered('#s'));
+            }
+            if (Input.isRepeated('up')||Input.isRepeated('#w')) {
+                this.cursorUp(Input.isTriggered('up')||Input.isTriggered('#w'));
+            }
+            if (!this.isHandled('pagedown') && Input.isTriggered('pagedown')) {
+                this.cursorPagedown();
+            }
+            if (!this.isHandled('pageup') && Input.isTriggered('pageup')) {
+                this.cursorPageup();
+            }
+            if (this.index() !== lastIndex) {
+                SoundManager.playCursor();
+            }
+        }
+    };
+
     WindowKeywordBank.prototype.processHandling = function () {
         if (this.isOpenAndActive()) {
             if (Imported.Quasi_Input || Imported.QInput) {
