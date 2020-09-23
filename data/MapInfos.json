@@ -164,6 +164,6 @@ null,
 {"id":162,"expanded":false,"name":"Heaven's Tower f7","order":162,"parentId":156,"scrollX":832,"scrollY":640},
 {"id":163,"expanded":false,"name":"Heaven's Tower f8","order":163,"parentId":156,"scrollX":832,"scrollY":640},
 {"id":164,"expanded":false,"name":"Heaven's Tower f9","order":164,"parentId":156,"scrollX":819,"scrollY":466},
-{"id":165,"expanded":true,"name":"Heaven's Tower f10","order":165,"parentId":156,"scrollX":832,"scrollY":640},
+{"id":165,"expanded":true,"name":"Heaven's Tower f10","order":165,"parentId":156,"scrollX":819,"scrollY":466},
 {"id":166,"expanded":false,"name":"Heaven's Tower Roof","order":166,"parentId":156,"scrollX":819,"scrollY":466}
 ]
