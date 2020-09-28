@@ -4104,7 +4104,10 @@ Window_QuestData.prototype.contentsHeight = function() {
 Window_QuestData.prototype.update = function() {
   Window_Selectable.prototype.update.call(this);
   this.updateCountdown();
-  if (this.isOpenAndActive()) this.updateKeyScrolling();
+  if (this.isOpenAndActive()) {
+    this.updateKeyScrolling();
+    this.processWheel();
+  }
 };
 
 Window_QuestData.prototype.updateCountdown = function() {
@@ -4167,6 +4170,7 @@ Window_QuestData.prototype.isInsideFrame = function() {
 };
 
 Window_QuestData.prototype.processWheel = function() {
+  window.print("scrollwheelcall");  
   if (!this.isInsideFrame()) return;
   var threshold = 20;
   if (TouchInput.wheelY >= threshold) {
