@@ -4106,7 +4106,7 @@ Window_QuestData.prototype.update = function() {
   this.updateCountdown();
   if (this.isOpenAndActive()) {
     this.updateKeyScrolling();
-    this.processWheel();
+    this.processScrollWheel();
   }
 };
 
@@ -4169,15 +4169,14 @@ Window_QuestData.prototype.isInsideFrame = function() {
   return x >= 0 && y >= 0 && x < this.width && y < this.height;
 };
 
-Window_QuestData.prototype.processWheel = function() {
-  window.print("scrollwheelcall");  
-  if (!this.isInsideFrame()) return;
+Window_QuestData.prototype.processScrollWheel = function() {
+  //if (!this.isInsideFrame()) return;
   var threshold = 20;
   if (TouchInput.wheelY >= threshold) {
-    this.scrollOriginDown(this.scrollSpeed() * 4);
+    this.scrollOriginDown(this.scrollSpeed() * 5);
   }
   if (TouchInput.wheelY <= -threshold) {
-    this.scrollOriginUp(this.scrollSpeed() * 4);
+    this.scrollOriginUp(this.scrollSpeed() * 5);
   }
 };
 
