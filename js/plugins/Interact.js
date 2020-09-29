@@ -464,17 +464,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
 
     WindowKeywordBank.prototype.setKeywordListFilter = function(filter) {
         this.m_keywordList = KeywordBank.getUnlockedKeywordsFiltered(this.m_keywordGroup, filter);
-        this.refresh();
-    };
-
-    WindowKeywordBank.prototype.activate = function() {
-        Window_Base.prototype.activate.call(this);
         this.select(0);
-    };
-
-    WindowKeywordBank.prototype.deactivate = function() {
-        Window_Base.prototype.deactivate.call(this);
-        this.deselect();
+        this.refresh();
     };
 
     WindowKeywordBank.prototype.maxItems = function() {
