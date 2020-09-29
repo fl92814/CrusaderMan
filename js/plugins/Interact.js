@@ -435,8 +435,6 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         this._tabTriggered = false;
         this._spaceOrEnterTriggered = false;
         Window_Selectable.prototype.initialize.call(this, x, y, this.windowWidth(), this.windowHeight());
-
-        this.refresh();
     };
 
     WindowKeywordBank.prototype.getKeywordListLength = function() {
@@ -459,34 +457,9 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         return this.fittingHeight(this.m_maxKeywords);
     };
 
-    WindowKeywordBank.prototype.refresh = function(){
-        this.contents.clear();
-        this.drawKeywords();
-        this.updateCursor();
-    }
-
-    WindowKeywordBank.prototype.drawKeywords = function() {
-        for(var i = 0; i < this.m_maxKeywords && i < this.m_keywordList.length; ++i){
-            this.drawKeyword(i, this.m_keywordList[this.m_topKeywordIndex + i]);
-        }
-    };
-
-    WindowKeywordBank.prototype.drawKeyword = function(windowIndex, keyword){
-        this.drawText(keyword, 5, windowIndex * this.lineHeight(), this.windowWidth());
-    };
-
-    WindowKeywordBank.prototype.updateCursor = function() {
-        var rect = this.itemRect(this.index());
-        this.setCursorRect(rect.x, rect.y, rect.width, rect.height);
-    };
-
-    WindowKeywordBank.prototype.itemRect = function(index) {
-        return {
-            x: 0,
-            y: index * this.lineHeight(),
-            width: 9 * this.m_maxKeywordLength,
-            height: this.lineHeight()
-        };
+    WindowKeywordBank.prototype.drawItem = function(index){
+        var rect = this.itemRect(index);
+        this.drawText(this.m_keywordList[index], rect.x, rect.y, rect.width); 
     };
 
     WindowKeywordBank.prototype.setKeywordListFilter = function(filter) {
@@ -495,25 +468,27 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     };
 
     WindowKeywordBank.prototype.activate = function() {
-        Window_Selectable.prototype.activate.call(this);
-        this._index = 0;
-        this.m_topKeywordIndex = 0;
-        this.refresh();
+        Window_Base.prototype.activate.call(this);
+        this.select(0);
     };
 
     WindowKeywordBank.prototype.deactivate = function() {
-        Window_Selectable.prototype.deselect.call(this);
-        Window_Selectable.prototype.deactivate.call(this);
-        this.m_topKeywordIndex = 0;
-        this.refresh();
+        Window_Base.prototype.deactivate.call(this);
+        this.deselect();
     };
 
     WindowKeywordBank.prototype.maxItems = function() {
-        return Math.min(this.m_maxKeywords, this.m_keywordList.length);
+        return this.m_keywordList.length;
     };
 
-    WindowKeywordBank.prototype.getSelectedKeyword = function() {
-        return this.m_keywordList[this._index];
+    WindowKeywordBank.prototype.applyWord = function() {
+        if (this.m_commandDisplayWindow)
+            this.m_commandDisplayWindow.displayString(this.m_keywordList[this._index]);
+        if (this.m_commandInputWindow) {
+            this.m_commandInputWindow.activate();
+            this.m_commandInputWindow.onTextOk();
+        }
+        this.deactivate();
     };
 
     WindowKeywordBank.prototype.processCursorMove = function() {
@@ -548,13 +523,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
                 }
                 if (this._spaceOrEnterTriggered && !Input.isTriggered('#space') && !Input.isTriggered('#enter')){
                     this._spaceOrEnterTriggered = false;
-                    if (this.m_commandDisplayWindow)
-                        this.m_commandDisplayWindow.displayString(this.getSelectedKeyword());
-                    if (this.m_commandInputWindow){
-                        this.m_commandInputWindow.activate();
-                        this.m_commandInputWindow.processJump();
-                    }
-                    this.deactivate();
+                    this.applyWord();
                     return;
                 }
                 if (this._tabTriggered && !Input.isTriggered('#tab')){
@@ -575,6 +544,57 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
                     this.processOk();
                 }
             }
+        }
+    };
+
+    WindowKeywordBank.prototype.processWheel = function() {
+        if (this.isOpen()) {
+            var threshold = 20;
+            if (TouchInput.wheelY >= threshold)
+                this.scrollDown();
+            if (TouchInput.wheelY <= -threshold)
+                this.scrollUp();
+        }
+    };
+    
+    WindowKeywordBank.prototype.processTouch = function() {
+        if (this.isOpen()) {
+            if (TouchInput.isTriggered() && this.isTouchedInsideFrame()) {
+                this._touching = true;
+                this.onTouch(true);
+            } else if (TouchInput.isCancelled()) {
+                if (this.isCancelEnabled())
+                    this.processCancel();
+            }
+            if (this._touching) {
+                if (TouchInput.isPressed())
+                    this.onTouch(false);
+                else
+                    this._touching = false;
+            }
+        } else {
+            this._touching = false;
+        }
+    };
+
+    WindowKeywordBank.prototype.onTouch = function(triggered) {
+        if (!this.active) {
+            if (this.m_commandInputWindow)
+                this.m_commandInputWindow.deactivate();
+            Window_Base.prototype.activate.call(this);
+        }
+
+        var lastIndex = this.index();
+        var x = this.canvasToLocalX(TouchInput.x);
+        var y = this.canvasToLocalY(TouchInput.y);
+        var hitIndex = this.hitTest(x, y);
+        if (hitIndex >= 0 && (triggered || hitIndex !== this.index())) {
+            this.select(hitIndex);
+
+            if (triggered && this.index() === lastIndex)
+                this.applyWord();
+                
+            SoundManager.playCursor();
         }
     };
 
@@ -885,6 +905,47 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         }
     };
 
+    WindowCommandInput.prototype.processWheel = function() {
+    };
+    
+    WindowCommandInput.prototype.processTouch = function() {
+        if (this.isOpen()) {
+            if (TouchInput.isTriggered() && this.isTouchedInsideFrame()) {
+                this._touching = true;
+                this.onTouch(true);
+            } else if (TouchInput.isCancelled()) {
+                if (this.isCancelEnabled())
+                    this.processCancel();
+            }
+            if (this._touching) {
+                if (TouchInput.isPressed())
+                    this.onTouch(false);
+                else
+                    this._touching = false;
+            }
+        } else {
+            this._touching = false;
+        }
+    };
+
+    WindowCommandInput.prototype.onTouch = function(triggered) {
+        if (!this.active) {
+            if (this.m_keywordBankWindow)
+                this.m_keywordBankWindow.deactivate();
+            this.activate();
+        }
+
+        var x = this.canvasToLocalX(TouchInput.x);
+        var y = this.canvasToLocalY(TouchInput.y);
+        var hitIndex = this.hitTest(x, y);
+        if (hitIndex >= 0) {
+            if (hitIndex !== this.index())
+                this.select(hitIndex);
+            if (triggered)
+                this.processOk();
+        }
+    };
+
     WindowCommandInput.prototype.isCancelEnabled = function() {
         return true;
     };
@@ -907,12 +968,10 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     };
 
     WindowCommandInput.prototype.processOk = function() {
-        if (this.character()) {
+        if (this.character())
             this.onTextAdd();
-        }
-        else {
+        else
             this.onTextOk();
-        }
     };
 
     WindowCommandInput.prototype.onTextAdd = function() {

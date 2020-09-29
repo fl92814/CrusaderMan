@@ -112,13 +112,15 @@
 	var oldScrollDown = Window_Selectable.prototype.scrollDown;
 	Window_Selectable.prototype.scrollDown = function() {
 		oldScrollDown.call(this);
-		this.cursorDown();
+		if (this.isOpenAndActive())
+			this.cursorDown();
 	};
 		
 	var oldScrollUp = Window_Selectable.prototype.scrollUp;
 	Window_Selectable.prototype.scrollUp = function() {
 		oldScrollUp.call(this);
-		this.cursorUp();
+		if (this.isOpenAndActive())
+			this.cursorUp();
 	};
 
 	// Amuseum hook functions end
