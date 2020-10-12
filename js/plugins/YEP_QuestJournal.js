@@ -4104,7 +4104,10 @@ Window_QuestData.prototype.contentsHeight = function() {
 Window_QuestData.prototype.update = function() {
   Window_Selectable.prototype.update.call(this);
   this.updateCountdown();
-  if (this.isOpenAndActive()) this.updateKeyScrolling();
+  if (this.isOpenAndActive()) {
+    this.updateKeyScrolling();
+    this.processScrollWheel();
+  }
 };
 
 Window_QuestData.prototype.updateCountdown = function() {
@@ -4166,14 +4169,14 @@ Window_QuestData.prototype.isInsideFrame = function() {
   return x >= 0 && y >= 0 && x < this.width && y < this.height;
 };
 
-Window_QuestData.prototype.processWheel = function() {
-  if (!this.isInsideFrame()) return;
+Window_QuestData.prototype.processScrollWheel = function() {
+  //if (!this.isInsideFrame()) return;
   var threshold = 20;
   if (TouchInput.wheelY >= threshold) {
-    this.scrollOriginDown(this.scrollSpeed() * 4);
+    this.scrollOriginDown(this.scrollSpeed() * 5);
   }
   if (TouchInput.wheelY <= -threshold) {
-    this.scrollOriginUp(this.scrollSpeed() * 4);
+    this.scrollOriginUp(this.scrollSpeed() * 5);
   }
 };
 
