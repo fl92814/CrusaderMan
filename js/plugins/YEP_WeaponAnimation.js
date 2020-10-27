@@ -545,7 +545,7 @@ Sprite_Weapon.prototype.loadCustomBitmap = function() {
 Yanfly.WA.Sprite_Weapon_updateFrame = Sprite_Weapon.prototype.updateFrame;
 Sprite_Weapon.prototype.updateFrame = function() {
     if (this.isCustomGraphic()) {
-      var w = Math.floor(this.bitmap.width / 3);
+      var w = Math.floor(this.bitmap.width / 6);
       var h = this.bitmap.height;
       var sx = this._pattern * w;
       var sy = 0;

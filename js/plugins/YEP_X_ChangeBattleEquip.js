@@ -146,6 +146,8 @@ BattleManager.startBattle = function() {
     BattleManager.refreshAllBattlers();
 };
 
+
+
 BattleManager.refreshAllBattlers = function() {
   var members = $gameParty.members().concat($gameTroop.members());
   var length = members.length;
