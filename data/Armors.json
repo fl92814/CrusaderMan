@@ -49,5 +49,9 @@ null,
 {"id":47,"atypeId":1,"description":"A stock armor.","etypeId":4,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":76,"name":"Orichalcum Mail","note":"","params":[0,0,0,12,0,0,0,0],"price":6000},
 {"id":48,"atypeId":1,"description":"A stock helm.","etypeId":3,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":72,"name":"Orichalcum Helmet","note":"","params":[0,0,0,12,0,0,0,0],"price":6000},
 {"id":49,"atypeId":1,"description":"A stock shield","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":68,"name":"Orichalcum Shield","note":"","params":[0,0,0,12,0,0,0,0],"price":6000},
-{"id":50,"atypeId":4,"description":"Resists blind.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":14,"dataId":5,"value":1}],"iconIndex":81,"name":"Eyeglasses","note":"<Text Color: 3>","params":[0,0,0,0,0,0,0,0],"price":1000}
+{"id":50,"atypeId":4,"description":"Resists blind.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":14,"dataId":5,"value":1}],"iconIndex":81,"name":"Eyeglasses","note":"<Text Color: 3>","params":[0,0,0,0,0,0,0,0],"price":1000},
+{"id":51,"atypeId":4,"description":"Resists burn.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":14,"dataId":13,"value":1}],"iconIndex":81,"name":"Sunscreen","note":"<Text Color: 3>","params":[0,0,0,0,0,0,0,0],"price":1000},
+{"id":52,"atypeId":4,"description":"Helps you avoid battles.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":64,"dataId":0,"value":1}],"iconIndex":82,"name":"Coward's Boots","note":"<Text Color: 1>","params":[0,0,0,0,0,0,0,0],"price":2000},
+{"id":53,"atypeId":4,"description":"Raise Critical Hit chance.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":22,"dataId":2,"value":0.2}],"iconIndex":83,"name":"Killer's Ring","note":"<Text Color: 1>","params":[0,0,0,0,0,0,0,0],"price":4000},
+{"id":54,"atypeId":4,"description":"Raises luck.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":95,"name":"Luck of the Gods","note":"<Text Color: 1>","params":[0,0,0,0,0,0,0,10],"price":8000}
 ]

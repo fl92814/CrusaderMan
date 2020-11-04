@@ -475,7 +475,13 @@ Game_Actor.prototype.equips = function() {
 
 Yanfly.Equip.Game_Actor_changeEquip = Game_Actor.prototype.changeEquip;
 Game_Actor.prototype.changeEquip = function(slotId, item) {
-    if (!this._equips[slotId]) this._equips[slotId] = new Game_Item();
+    if(item === null && slotId == 0) {
+        $dataActors[1]._sideviewBattler.filename = "sv_CrusaderMan_unarmed";
+    }
+    if (!this._equips[slotId])
+    {
+      this._equips[slotId] = new Game_Item();
+    }
     Yanfly.Equip.Game_Actor_changeEquip.call(this, slotId, item);
 };
 
@@ -750,7 +756,9 @@ Window_EquipItem.prototype.drawItem = function(index) {
 };
 
 Window_EquipItem.prototype.drawRemoveEquip = function(index) {
-    if (!this.isEnabled(null)) return;
+    if (!this.isEnabled(null)){
+      return;
+    } 
     var rect = this.itemRect(index);
     rect.width -= this.textPadding();
     this.changePaintOpacity(true);
@@ -1018,6 +1026,7 @@ Scene_Equip.prototype.commandClear = function() {
     var hpRate = this.actor().hp / Math.max(1, this.actor().mhp);
     var mpRate = this.actor().mp / Math.max(1, this.actor().mmp);
     Yanfly.Equip.Scene_Equip_commandClear.call(this);
+    $dataActors[1]._sideviewBattler.filename = "sv_CrusaderMan_unarmed";
     $gameTemp._clearEquipments = false;
     var max = this.actor().isDead() ? 0 : 1;
     var hpAmount = Math.max(max, parseInt(this.actor().mhp * hpRate));
