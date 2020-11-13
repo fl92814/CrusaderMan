@@ -4829,6 +4829,7 @@ Scene_Quest.prototype.create = function() {
   this.createTitleWindow();
   this.createCategoryWindow();
   this.createListWindow();
+  this.slideView('Left');
   this.processQuestOpen();
   this.runCustomCode(Yanfly.Quest.createAfter);
 };
@@ -4880,7 +4881,7 @@ Scene_Quest.prototype.onCategoryCancel = function() {
 };
 
 Scene_Quest.prototype.onCategoryOk = function() {
-  this._listWindow.activate();
+  this.listWindowActivate();
   if (this._listWindow.index() < 0) this._listWindow.select(0);
 };
 
@@ -4891,34 +4892,56 @@ Scene_Quest.prototype.isQuestExtraCommand = function() {
 Scene_Quest.prototype.onListCancel = function() {
   if (this._listWindow._mode === 'Extra') {
     this._listWindow.setMode('Quest');
+    this.slideView('Left');
   } else {
     this._categoryWindow.activate();
+    this.slideView('Left');
   }
 };
 
 Scene_Quest.prototype.onListTypeToggle = function() {
-  this._listWindow.activate();
+  this.listWindowActivate();
   this._listWindow.typeToggle(this._listWindow.currentExt());
 };
 
 Scene_Quest.prototype.onListQuest = function() {
   if (this.isQuestExtraCommand()) {
     this._listWindow.setMode('Extra');
+    this.slideView('Left');
   } else {
     this.dataWindowActivate();
   }
 };
 
+Scene_Quest.prototype.slideView = function(side) {
+  if (side == 'Left') {
+    this._categoryWindow.x = 0
+    this._listWindow.x = 0
+    this._titleWindow.x = this._listWindow.width
+    this._dataWindow.x = this._listWindow.width
+  } else {
+    this._titleWindow.x = this.boxWidth - this._dataWindow.width
+    this._dataWindow.x = this.boxWidth - this._dataWindow.width
+    this._categoryWindow.x = this._dataWindow.x - this._listWindow.width
+    this._listWindow.x = this._dataWindow.x - this._listWindow.width
+  }
+}
+Scene_Quest.prototype.listWindowActivate = function() {
+  this._listWindow.activate();
+  this.slideView('Left');
+};
 Scene_Quest.prototype.dataWindowActivate = function() {
   this._dataWindow.activate();
+  this.slideView('Right');
 };
 
 Scene_Quest.prototype.onDataCancel = function() {
   if (this._dataWindow._mode === 'Extra') {
     this._listWindow.setMode('Quest');
+    this.slideView('Left');
   } else {
     this._dataWindow.deactivate();
-    this._listWindow.activate();
+    this.listWindowActivate();
   }
 };
 
@@ -4956,28 +4979,6 @@ Scene_Quest.prototype.processQuestOpen = function() {
 
 Scene_Quest.prototype.getQuestOpenCategories = function() {
   return ['available', 'completed', 'failed', 'all'];
-};
-
-// Custom Code
-
-Scene_Quest.prototype.centerSprite = function(sprite) {
-  sprite.x = Graphics.width / 2;
-  sprite.y = Graphics.height / 2;
-  sprite.anchor.x = 0.5;
-  sprite.anchor.y = 0.5;
-};
-
-Scene_Quest.prototype.fitScreen = function(sprite) {
-  if (sprite.bitmap.width <= 0 || sprite.bitmap <= 0) {
-    return setTimeout(this.fitScreen.bind(this, sprite), 5);
-  }
-  var width = Graphics.boxWidth;
-  var height = Graphics.boxHeight;
-  var ratioX = width / sprite.bitmap.width;
-  var ratioY = height / sprite.bitmap.height;
-  if (ratioX > 1.0) sprite.scale.x = ratioX;
-  if (ratioY > 1.0) sprite.scale.y = ratioY;
-  this.centerSprite(sprite);
 };
 
 //=============================================================================
