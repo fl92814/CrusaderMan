@@ -4916,14 +4916,22 @@ Scene_Quest.prototype.onListQuest = function() {
 Scene_Quest.prototype.slideView = function(side) {
   if (side == 'Left') {
     this._categoryWindow.x = 0
+    this._categoryWindow.width = this.boxWidth * 2 / 3
     this._listWindow.x = 0
+    this._listWindow.width = this.boxWidth * 2 / 3
     this._titleWindow.x = this._listWindow.width
+    this._titleWindow.width = this.boxWidth / 3
     this._dataWindow.x = this._listWindow.width
+    this._dataWindow.width = this.boxWidth / 3
   } else {
-    this._titleWindow.x = this.boxWidth - this._dataWindow.width
-    this._dataWindow.x = this.boxWidth - this._dataWindow.width
-    this._categoryWindow.x = this._dataWindow.x - this._listWindow.width
-    this._listWindow.x = this._dataWindow.x - this._listWindow.width
+    this._categoryWindow.x = 0
+    this._categoryWindow.width = this.boxWidth / 3
+    this._listWindow.x = 0
+    this._listWindow.width = this.boxWidth / 3
+    this._titleWindow.x = this._listWindow.width
+    this._titleWindow.width = this.boxWidth * 2 / 3
+    this._dataWindow.x = this._listWindow.width
+    this._dataWindow.width = this.boxWidth * 2 / 3
   }
 }
 Scene_Quest.prototype.listWindowActivate = function() {
