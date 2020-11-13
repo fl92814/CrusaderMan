@@ -2608,7 +2608,8 @@ Yanfly.Quest.version = 1.02;
  * @type combo
  * @option Main Quests
  * @option Side Quests
- * @option Character Quests
+ * @option Faction Quests
+ * @option Companion Quests
  * @option Tutorial Quests
  * @desc What type of quest is this?
  * @default Main Quests
