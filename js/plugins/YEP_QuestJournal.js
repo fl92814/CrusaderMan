@@ -3913,6 +3913,10 @@ Window_QuestData.prototype.windowHeight = function() {
   return this._windowHeight;
 };
 
+Window_QuestData.prototype.contentsWidth = function() {
+    return this._windowWidth - this.standardPadding() * 2;
+};
+
 Window_QuestData.prototype.lineHeight = function() {
   if (this._windowLineHeight === undefined) {
     this._windowLineHeight = parseInt(this.settings('Line Height'));
