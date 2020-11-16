@@ -2608,7 +2608,8 @@ Yanfly.Quest.version = 1.02;
  * @type combo
  * @option Main Quests
  * @option Side Quests
- * @option Faction Quests
+ * @option Dread Wolves Quests
+ * @option Money Club Quests
  * @option Companion Quests
  * @option Tutorial Quests
  * @desc What type of quest is this?
