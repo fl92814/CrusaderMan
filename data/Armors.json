@@ -52,6 +52,12 @@ null,
 {"id":50,"atypeId":4,"description":"Resists blind.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":14,"dataId":5,"value":1}],"iconIndex":81,"name":"Eyeglasses","note":"<Text Color: 3>","params":[0,0,0,0,0,0,0,0],"price":1000},
 {"id":51,"atypeId":4,"description":"Resists burn.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":14,"dataId":13,"value":1}],"iconIndex":81,"name":"Sunscreen","note":"<Text Color: 3>","params":[0,0,0,0,0,0,0,0],"price":1000},
 {"id":52,"atypeId":4,"description":"Helps you avoid battles.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":64,"dataId":0,"value":1}],"iconIndex":82,"name":"Coward's Boots","note":"<Text Color: 1>","params":[0,0,0,0,0,0,0,0],"price":2000},
-{"id":53,"atypeId":4,"description":"Raise Critical Hit chance.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":22,"dataId":2,"value":0.2}],"iconIndex":83,"name":"Killer's Ring","note":"<Text Color: 1>","params":[0,0,0,0,0,0,0,0],"price":4000},
-{"id":54,"atypeId":4,"description":"Raises luck.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":95,"name":"Luck of the Gods","note":"<Text Color: 1>","params":[0,0,0,0,0,0,0,10],"price":8000}
+{"id":53,"atypeId":4,"description":"Raise Critical Hit chance.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":22,"dataId":2,"value":0.2}],"iconIndex":83,"name":"Killer's Ring","note":"<Text Color: 2>","params":[0,0,0,0,0,0,0,0],"price":4000},
+{"id":54,"atypeId":4,"description":"Raises luck.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":95,"name":"Luck of the Gods","note":"<Text Color: 19>","params":[0,0,0,0,0,0,0,10],"price":8000},
+{"id":55,"atypeId":2,"description":"A rare armor. Increases Evasion rate.","etypeId":4,"traits":[{"code":22,"dataId":1,"value":0.05}],"iconIndex":78,"name":"Rubber Armor","note":"<Text Color: 1>","params":[0,0,0,7,0,0,0,0],"price":3000},
+{"id":56,"atypeId":2,"description":"A rare helmet. Increases Evasion rate.","etypeId":3,"traits":[{"code":22,"dataId":1,"value":0.05}],"iconIndex":74,"name":"Rubber Helmet","note":"<Text Color: 1>","params":[0,0,0,7,0,0,0,0],"price":2200},
+{"id":57,"atypeId":2,"description":"A rare shield. Increases Evasion rate.","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0.05}],"iconIndex":70,"name":"Rubber Shield","note":"<Text Color: 1>","params":[0,0,0,7,0,0,0,0],"price":2500},
+{"id":58,"atypeId":0,"description":"","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":0,"name":"","note":"","params":[0,0,0,0,0,0,0,0],"price":0},
+{"id":59,"atypeId":0,"description":"","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":0,"name":"","note":"","params":[0,0,0,0,0,0,0,0],"price":0},
+{"id":60,"atypeId":0,"description":"","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":0,"name":"","note":"","params":[0,0,0,0,0,0,0,0],"price":0}
 ]
