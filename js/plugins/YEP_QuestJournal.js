@@ -2610,6 +2610,8 @@ Yanfly.Quest.version = 1.02;
  * @option Side Quests
  * @option Dread Wolves Quests
  * @option Money Club Quests
+ * @option Fury Wings Quests
+ * @option Vile Rats Quests
  * @option Companion Quests
  * @option Tutorial Quests
  * @desc What type of quest is this?
