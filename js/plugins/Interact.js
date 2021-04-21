@@ -367,16 +367,19 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     };
 
     SceneInteract.prototype.createKeywordBankWindow = function() {
-        this.m_keywordBankWindow = new WindowKeywordBank(Interact.Parameters.KeywordBank.x, Interact.Parameters.KeywordBank.y,
-            Interact.Parameters.KeywordBank.maxKeywordLength, Interact.Parameters.KeywordBank.maxKeywords, Interact.Parameters.KeywordBank.keywordGroup);
-        this.addWindow(this.m_keywordBankWindow);
+        if (Interact.Parameters.KeywordBank.keywordGroup) {
+            this.m_keywordBankWindow = new WindowKeywordBank(Interact.Parameters.KeywordBank.x, Interact.Parameters.KeywordBank.y,
+                Interact.Parameters.KeywordBank.maxKeywordLength, Interact.Parameters.KeywordBank.maxKeywords, Interact.Parameters.KeywordBank.keywordGroup);
+            this.addWindow(this.m_keywordBankWindow);
+        }
     };
 
     SceneInteract.prototype.createCommandDisplayWindow = function() {
         this.m_commandDisplayWindow = new WindowCommandDisplay(Interact.Parameters.CommandDisplay.x, Interact.Parameters.CommandDisplay.y, 
             Interact.Parameters.CommandDisplay.maxLength, Interact.Parameters.CommandDisplay.defaultString, this.m_keywordBankWindow);
         this.addWindow(this.m_commandDisplayWindow);
-        this.m_keywordBankWindow.registerCommandDisplayWindow(this.m_commandDisplayWindow);
+        if (this.m_keywordBankWindow)
+            this.m_keywordBankWindow.registerCommandDisplayWindow(this.m_commandDisplayWindow);
     };
 
     SceneInteract.prototype.createCommandInputWindow = function() {
@@ -384,24 +387,31 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
             Interact.Parameters.CharInput.rowSize, Interact.Parameters.CharInput.columnSize, this.m_commandDisplayWindow, this.m_keywordBankWindow);
         this.m_commandInputWindow.setHandler('ok', this.commandInputComplete.bind(this));
         this.addWindow(this.m_commandInputWindow);
-        this.m_keywordBankWindow.registerCommandInputWindow(this.m_commandInputWindow);
+        if (this.m_keywordBankWindow)
+            this.m_keywordBankWindow.registerCommandInputWindow(this.m_commandInputWindow);
     };
 
     SceneInteract.prototype.createObjectPortraitWindow = function() {
-        this.m_objectPortraitWindow = new WindowObjectPortrait(Interact.Parameters.Portrait.x, Interact.Parameters.Portrait.y,
-            Interact.Parameters.Portrait.width, Interact.Parameters.Portrait.height, Interact.Parameters.Portrait.imageName);
-        this.addWindow(this.m_objectPortraitWindow);
+        if (Interact.Parameters.Portrait.imageName) {
+            this.m_objectPortraitWindow = new WindowObjectPortrait(Interact.Parameters.Portrait.x, Interact.Parameters.Portrait.y,
+                Interact.Parameters.Portrait.width, Interact.Parameters.Portrait.height, Interact.Parameters.Portrait.imageName);
+            this.addWindow(this.m_objectPortraitWindow);
+        }
     };
 
     SceneInteract.prototype.createObjectDialogueWindow = function() {
-        this.m_objectDialogueWindow = new WindowObjectDialogue(Interact.Parameters.Dialogue.x, Interact.Parameters.Dialogue.y,
-            Interact.Parameters.Dialogue.lineLength, Interact.Parameters.Dialogue.dialogue);
-        this.addWindow(this.m_objectDialogueWindow);
+        if (Interact.Parameters.Dialogue.dialogue) {
+            this.m_objectDialogueWindow = new WindowObjectDialogue(Interact.Parameters.Dialogue.x, Interact.Parameters.Dialogue.y,
+                Interact.Parameters.Dialogue.lineLength, Interact.Parameters.Dialogue.dialogue);
+            this.addWindow(this.m_objectDialogueWindow);
+        }
     };
 
     SceneInteract.prototype.commandInputComplete = function() {
         var str = this.m_commandDisplayWindow.finaltext();
-        if (!KeywordBank.exists(str, Interact.Parameters.KeywordBank.keywordGroup) || KeywordBank.locked(str, Interact.Parameters.KeywordBank.keywordGroup))
+        if (Interact.Parameters.KeywordBank.keywordGroup &&
+            (!KeywordBank.exists(str, Interact.Parameters.KeywordBank.keywordGroup)
+            || KeywordBank.locked(str, Interact.Parameters.KeywordBank.keywordGroup)))
         {
             SoundManager.playBuzzer();
             return;
@@ -721,7 +731,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
         }
         var rect = this.itemRect(this.index());
         this.setCursorRect(rect.x, rect.y, rect.width, rect.height);
-        this.m_keywordBankWindow.setKeywordListFilter(this.m_text);
+        if (this.m_keywordBankWindow)
+            this.m_keywordBankWindow.setKeywordListFilter(this.m_text);
     };
 
     //-----------------------------------------------------------------------------
@@ -877,7 +888,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
                 }
                 if (this._tabTriggered && !Input.isTriggered('#tab')){
                     this._tabTriggered = false;
-                    if (this.m_keywordBankWindow.getKeywordListLength() > 0){
+                    if (this.m_keywordBankWindow && this.m_keywordBankWindow.getKeywordListLength() > 0){
                         this.deactivate();
                         this.m_keywordBankWindow.activate();
                     }
