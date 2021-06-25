@@ -66,8 +66,8 @@ null,
 {"id":64,"atypeId":1,"description":"A stock helm.","etypeId":3,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":72,"name":"Adamantium Helmet","note":"","params":[0,0,0,16,0,0,0,0],"price":15000},
 {"id":65,"atypeId":1,"description":"A stock shield","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":68,"name":"Adamantium Shield","note":"","params":[0,0,0,16,0,0,0,0],"price":15000},
 {"id":66,"atypeId":1,"description":"Raises evasion rate.","etypeId":3,"traits":[{"code":22,"dataId":1,"value":0.05}],"iconIndex":73,"name":"Winged Helmet","note":"<Text Color: 3>","params":[0,0,0,10,0,4,0,0],"price":4800},
-{"id":67,"atypeId":0,"description":"","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":0,"name":"","note":"","params":[0,0,0,0,0,0,0,0],"price":0},
-{"id":68,"atypeId":0,"description":"","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":0,"name":"","note":"","params":[0,0,0,0,0,0,0,0],"price":0},
-{"id":69,"atypeId":0,"description":"","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":0,"name":"","note":"","params":[0,0,0,0,0,0,0,0],"price":0},
+{"id":67,"atypeId":4,"description":"Resists Sleep.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":14,"dataId":10,"value":1}],"iconIndex":82,"name":"Alarm Clock","note":"<Text Color: 1>","params":[0,0,0,0,0,0,0,0],"price":3000},
+{"id":68,"atypeId":4,"description":"Raises evasion rate.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0.1}],"iconIndex":82,"name":"Winged Boots","note":"<Text Color: 1>","params":[0,0,0,0,0,0,0,0],"price":3000},
+{"id":69,"atypeId":4,"description":"Chance to counter.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0},{"code":22,"dataId":6,"value":0.1}],"iconIndex":82,"name":"Concealed Knife","note":"<Text Color: 1>","params":[0,0,0,0,0,0,0,0],"price":3000},
 {"id":70,"atypeId":0,"description":"","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":0,"name":"","note":"","params":[0,0,0,0,0,0,0,0],"price":0}
 ]
