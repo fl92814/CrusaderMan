@@ -2608,7 +2608,10 @@ Yanfly.Quest.version = 1.02;
  * @type combo
  * @option Main Quests
  * @option Side Quests
- * @option Faction Quests
+ * @option Dread Wolves Quests
+ * @option Money Club Quests
+ * @option Fury Wings Quests
+ * @option Vile Rats Quests
  * @option Companion Quests
  * @option Tutorial Quests
  * @desc What type of quest is this?
@@ -3888,7 +3891,6 @@ Window_QuestData.prototype.initialize = function() {
   var x = Math.round(eval(this.settings('X')));
   var y = Math.round(eval(this.settings('Y')));
   this._allTextHeight = 0;
-  this._countdown = 0;
   this._arrowBlinkTimer = 0;
   Window_Selectable.prototype.initialize.call(this, x, y, width, height);
   this.setQuestId(0);
@@ -3974,13 +3976,11 @@ Window_QuestData.prototype.delayLoadFrames = function() {
 Window_QuestData.prototype.setQuestId = function(id) {
   if (this._questId !== id) {
     this._questId = id;
-    this._countdown = 30;
     this.refresh();
   }
 };
 
 Window_QuestData.prototype.refresh = function() {
-  if (this._countdown > 0) return;
   this.contents.clear();
   this._lastOriginY = -200;
   this.origin.y = 0;
@@ -4108,17 +4108,9 @@ Window_QuestData.prototype.contentsHeight = function() {
 
 Window_QuestData.prototype.update = function() {
   Window_Selectable.prototype.update.call(this);
-  this.updateCountdown();
   if (this.isOpenAndActive()) {
     this.updateKeyScrolling();
     this.processScrollWheel();
-  }
-};
-
-Window_QuestData.prototype.updateCountdown = function() {
-  if (this._countdown > 0) {
-    this._countdown -= 1;
-    if (this._countdown <= 0) this.refresh();
   }
 };
 
@@ -4284,15 +4276,19 @@ Window_QuestTitle.prototype.setText = function(text) {
 
 Window_QuestTitle.prototype.refresh = function() {
   this.contents.clear();
-  var align = this.settings('Text Alignment');
   var wx = 0;
-  var ww = this.contents.width;
-  if (align === 'left') {
+  if (this.width < this.x) // condensed window, always left aligned
     wx = this.textPadding();
-  } else if (align === 'center') {
-    wx += (ww - this.textWidthEx(this._text)) / 2;
-  } else {
-    wx += ww - this.textWidthEx(this._text) - this.textPadding();
+  else {
+    var align = this.settings('Text Alignment');
+    var ww = this.contents.width;
+    if (align === 'left') {
+      wx = this.textPadding();
+    } else if (align === 'center') {
+      wx += (ww - this.textWidthEx(this._text)) / 2;
+    } else {
+      wx += ww - this.textWidthEx(this._text) - this.textPadding();
+    }
   }
   this.drawTextEx(this._text, wx, 0);
 };
@@ -4919,24 +4915,25 @@ Scene_Quest.prototype.onListQuest = function() {
 
 Scene_Quest.prototype.slideView = function(side) {
   if (side == 'Left') {
-    this._categoryWindow.x = 0
-    this._categoryWindow.width = Graphics.boxWidth * 2 / 3
-    this._listWindow.x = 0
-    this._listWindow.width = Graphics.boxWidth * 2 / 3
-    this._titleWindow.x = this._listWindow.width
-    this._titleWindow.width = Graphics.boxWidth / 3
-    this._dataWindow.x = this._listWindow.width
-    this._dataWindow.width = Graphics.boxWidth / 3
+    this._categoryWindow.x = 0;
+    this._categoryWindow.width = Graphics.boxWidth * 2 / 3;
+    this._listWindow.x = 0;
+    this._listWindow.width = Graphics.boxWidth * 2 / 3;
+    this._titleWindow.x = this._listWindow.width;
+    this._titleWindow.width = Graphics.boxWidth / 3;
+    this._dataWindow.x = this._listWindow.width;
+    this._dataWindow.width = Graphics.boxWidth / 3;
   } else {
-    this._categoryWindow.x = 0
-    this._categoryWindow.width = Graphics.boxWidth / 3
-    this._listWindow.x = 0
-    this._listWindow.width = Graphics.boxWidth / 3
-    this._titleWindow.x = this._listWindow.width
-    this._titleWindow.width = Graphics.boxWidth * 2 / 3
-    this._dataWindow.x = this._listWindow.width
-    this._dataWindow.width = Graphics.boxWidth * 2 / 3
+    this._categoryWindow.x = 0;
+    this._categoryWindow.width = Graphics.boxWidth / 3;
+    this._listWindow.x = 0;
+    this._listWindow.width = Graphics.boxWidth / 3;
+    this._titleWindow.x = this._listWindow.width;
+    this._titleWindow.width = Graphics.boxWidth * 2 / 3;
+    this._dataWindow.x = this._listWindow.width;
+    this._dataWindow.width = Graphics.boxWidth * 2 / 3;
   }
+  this._titleWindow.refresh(); // for text align
 }
 Scene_Quest.prototype.listWindowActivate = function() {
   this._listWindow.activate();
