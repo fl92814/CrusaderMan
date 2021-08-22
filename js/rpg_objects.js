@@ -3728,9 +3728,28 @@ Game_Actor.prototype.bestEquipItem = function(slotId) {
 };
 
 Game_Actor.prototype.calcEquipItemPerformance = function(item) {
-    return item.params.reduce(function(a, b) {
-        return a + b;
-    });
+   // return item.params.reduce(function(a, b) {
+   //     return a + b;
+   // });
+   var who = this.actorId();
+   if (who === 1){
+    return item.params [2] + item.params [3] + item.params [5] + item.params [6] + item.params [7]
+    }
+   if (who === 2){
+    return item.params [4] + item.params [6]
+    }
+   if (who === 3){
+    return item.params [2] + item.params [7]
+    }
+   if (who === 4){
+    return item.params [2] + item.params [6] + item.params [7]
+    }
+   if (who === 5){
+    return item.params [3] + item.params [5]
+    }
+   if (who === 6){
+    return item.params [2] + item.params [6]
+    }
 };
 
 Game_Actor.prototype.isSkillWtypeOk = function(skill) {
