@@ -6,7 +6,7 @@ null,
 {"id":4,"expanded":false,"name":"Church","order":3,"parentId":2,"scrollX":819,"scrollY":461},
 {"id":5,"expanded":false,"name":"Toasty Tavern","order":5,"parentId":2,"scrollX":819,"scrollY":461},
 {"id":6,"expanded":false,"name":"Smithy","order":6,"parentId":2,"scrollX":819,"scrollY":459},
-{"id":7,"expanded":false,"name":"Shop","order":7,"parentId":2,"scrollX":832,"scrollY":640},
+{"id":7,"expanded":false,"name":"Shop","order":7,"parentId":2,"scrollX":819,"scrollY":461},
 {"id":8,"expanded":true,"name":"Weezing Woods","order":11,"parentId":0,"scrollX":832,"scrollY":453},
 {"id":9,"expanded":true,"name":"Bandit Fort","order":12,"parentId":8,"scrollX":819,"scrollY":461},
 {"id":10,"expanded":true,"name":"Deep Weezing Woods","order":13,"parentId":9,"scrollX":832,"scrollY":453},
@@ -266,5 +266,8 @@ null,
 {"id":264,"expanded":false,"name":"Weezing Wood Treetops","order":15,"parentId":8,"scrollX":819,"scrollY":461},
 {"id":265,"expanded":true,"name":"Grand Cathedral Inner 2","order":67,"parentId":39,"scrollX":819,"scrollY":461},
 {"id":266,"expanded":false,"name":"Grand Cathedral Basement","order":68,"parentId":265,"scrollX":819,"scrollY":461},
-{"id":267,"expanded":true,"name":"Wisconsin","order":267,"parentId":0,"scrollX":819,"scrollY":453}
+{"id":267,"expanded":true,"name":"Wisconsin","order":267,"parentId":0,"scrollX":1101,"scrollY":453},
+{"id":268,"expanded":false,"name":"The Icy Inn","order":268,"parentId":267,"scrollX":819,"scrollY":461},
+{"id":269,"expanded":false,"name":"Shiver Shop","order":269,"parentId":267,"scrollX":819,"scrollY":461},
+{"id":270,"expanded":false,"name":"Frigid Smithy","order":270,"parentId":267,"scrollX":819,"scrollY":461}
 ]
