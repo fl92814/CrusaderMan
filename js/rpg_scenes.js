@@ -357,6 +357,7 @@ Scene_Boot.prototype.loadSystemWindowImage = function() {
 };
 
 Scene_Boot.loadSystemImages = function() {
+    ConfigManager.load();
     ImageManager.reserveSystem('IconSet');
     ImageManager.reserveSystem('Balloon');
     ImageManager.reserveSystem('Shadow1');
