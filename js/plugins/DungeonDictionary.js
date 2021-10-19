@@ -170,25 +170,25 @@ DungeonDictionary.replaceDialogTags = function(dlg, profile, match) {
     else {
         if (dlg.includes('{name}')) {
             var n;
-            do n = DEF.namesRaw.getRandom();
+            do n = DungeonDictionary.Param.namesRaw.getRandom();
             while(profile.name == n);
             dlg.replace('{name}', n);
         }
         if (dlg.includes('{job}')) {
             var j;
-            do j = DEF.jobsRaw.getRandom();
+            do j = DungeonDictionary.Param.jobsRaw.getRandom();
             while(profile.job == j);
             dlg.replace('{job}', j);
         }
         if (dlg.includes('{crime}')) {
             var c;
-            do c = DEF.crimesRaw.getRandom();
+            do c = DungeonDictionary.Param.crimesRaw.getRandom();
             while(profile.crime == c);
             dlg.replace('{crime}', c);
         }
         if (dlg.includes('{where}')) {
             var w;
-            do w = DEF.wheresRaw.getRandom();
+            do w = DungeonDictionary.Param.wheresRaw.getRandom();
             while(profile.where == w);
             dlg.replace('{where}', w);
         }
@@ -213,10 +213,11 @@ DungeonDictionary.createProfile = function() {
         
     // create correct name, job, crime, and where
     profile.name  = DEF.namesRaw.getRandom();
-    profile.preposition = profile.name.prp;
     profile.job   = DEF.jobsRaw.getRandom();
     profile.crime = DEF.crimesRaw.getRandom();
+    profile.preposition = profile.crime.prp;
     profile.where = DEF.wheresRaw.getRandom();
+  
     
     // create dialog name, job, crime, and where based on status if match
     if (profile.status.name == 1)
@@ -228,7 +229,7 @@ DungeonDictionary.createProfile = function() {
             var dlg;
             do {
                 dlg = DEF.namesDialog.getRandom();
-                dlg = dlg.dialog ?? dlg.name;
+                dlg = dlg.dialog || dlg.name;
             } while((dlg.includes('{job}') && profile.status.job == 0)
                || (dlg.includes('{crime}') && profile.status.crime == 0)
                || (dlg.includes('{where}') && profile.status.where == 0));
@@ -242,7 +243,7 @@ DungeonDictionary.createProfile = function() {
             dlg = Math.floor(Math.random()*2) == 0
                 ? DEF.namesDialog.getRandom()
                 : DEF.names.getRandom();
-            dlg = dlg.dialog ?? dlg.name;
+            dlg = dlg.dialog || dlg.name;
         } while((dlg.includes('{job}') && profile.status.job == 0)
            || (dlg.includes('{crime}') && profile.status.crime == 0)
            || (dlg.includes('{where}') && profile.status.where == 0));
@@ -257,7 +258,7 @@ DungeonDictionary.createProfile = function() {
             var dlg;
             do {
                 dlg = DEF.jobsDialog.getRandom();
-                dlg = dlg.dialog ?? dlg.job;
+                dlg = dlg.dialog || dlg.job;
             } while((dlg.includes('{name}') && profile.status.name == 0)
                || (dlg.includes('{crime}') && profile.status.crime == 0)
                || (dlg.includes('{where}') && profile.status.where == 0));
@@ -271,7 +272,7 @@ DungeonDictionary.createProfile = function() {
             dlg = Math.floor(Math.random()*2) == 0
                 ? DEF.jobsDialog.getRandom()
                 : DEF.jobs.getRandom();
-            dlg = dlg.dialog ?? dlg.job;
+            dlg = dlg.dialog || dlg.job;
         } while((dlg.includes('{name}') && profile.status.name == 0)
            || (dlg.includes('{crime}') && profile.status.crime == 0)
            || (dlg.includes('{where}') && profile.status.where == 0));
@@ -286,7 +287,7 @@ DungeonDictionary.createProfile = function() {
             var dlg;
             do {
                 dlg = DEF.crimesDialog.getRandom();
-                dlg = dlg.dialog ?? dlg.crime;
+                dlg = dlg.dialog || dlg.crime;
             } while((dlg.includes('{name}') && profile.status.name == 0)
                || (dlg.includes('{job}') && profile.status.job == 0)
                || (dlg.includes('{where}') && profile.status.where == 0));
@@ -300,7 +301,7 @@ DungeonDictionary.createProfile = function() {
             dlg = Math.floor(Math.random()*2) == 0
                 ? DEF.crimesDialog.getRandom()
                 : DEF.crimes.getRandom();
-            dlg = dlg.dialog ?? dlg.crime;
+            dlg = dlg.dialog || dlg.crime;
         } while((dlg.includes('{name}') && profile.status.name == 0)
            || (dlg.includes('{job}') && profile.status.job == 0)
            || (dlg.includes('{where}') && profile.status.where == 0));
@@ -315,7 +316,7 @@ DungeonDictionary.createProfile = function() {
             var dlg;
             do {
                 dlg = DEF.wheresDialog.getRandom();
-                dlg = dlg.dialog ?? dlg.where;
+                dlg = dlg.dialog || dlg.where;
             } while((dlg.includes('{name}') && profile.status.name == 0)
                || (dlg.includes('{job}') && profile.status.job == 0)
                || (dlg.includes('{crime}') && profile.status.crime == 0));
@@ -329,7 +330,7 @@ DungeonDictionary.createProfile = function() {
             dlg = Math.floor(Math.random()*2) == 0
                 ? DEF.wheresDialog.getRandom()
                 : DEF.wheres.getRandom();
-            dlg = dlg.dialog ?? dlg.where;
+            dlg = dlg.dialog || dlg.where;
         } while((dlg.includes('{name}') && profile.status.name == 0)
            || (dlg.includes('{job}') && profile.status.job == 0)
            || (dlg.includes('{crime}') && profile.status.crime == 0));
@@ -343,10 +344,10 @@ DungeonDictionary.createProfile = function() {
     profile.where = profile.where.where;
     
     // replace tags in dialogs
-    profile.dialog.name  = replaceDialogTags(profile.dialog.name, profile, profile.status.name == 1);
-    profile.dialog.job   = replaceDialogTags(profile.dialog.job, profile, profile.status.job == 1);
-    profile.dialog.crime = replaceDialogTags(profile.dialog.crime, profile, profile.status.crime == 1);
-    profile.dialog.where = replaceDialogTags(profile.dialog.where, profile, profile.status.where == 1);
+    profile.dialog.name  = DungeonDictionary.replaceDialogTags(profile.dialog.name, profile, profile.status.name == 1);
+    profile.dialog.job   = DungeonDictionary.replaceDialogTags(profile.dialog.job, profile, profile.status.job == 1);
+    profile.dialog.crime = DungeonDictionary.replaceDialogTags(profile.dialog.crime, profile, profile.status.crime == 1);
+    profile.dialog.where = DungeonDictionary.replaceDialogTags(profile.dialog.where, profile, profile.status.where == 1);
     
     return DungeonDictionary.profile = profile;
 };
