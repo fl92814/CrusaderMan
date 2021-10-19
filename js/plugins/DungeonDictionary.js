@@ -230,6 +230,7 @@ DungeonDictionary.createProfile = function() {
     profile.crime = DEF.crimesRaw.getRandom();
     profile.preposition = profile.crime.prp;
     profile.where = DEF.wheresRaw.getRandom();
+  
     
     // create dialog name, job, crime, and where based on status if match
     if (profile.status.name == 1)
