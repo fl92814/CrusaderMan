@@ -5,14 +5,17 @@
 /*:
  * @plugindesc v0.0.1 DungeonDictionary
  * @author Rhaokiel
+ * 
+ * @help
+ * DungeonDictionary.createProfile();
+ * DungeonDictionary.playerChoose(dialogType, choice);
+ * DungeonDictionary.successRate();
  */
  
 var Imported = Imported || {};
 Imported.DungeonDictionary = '0.0.1';
 
 var DungeonDictionary = DungeonDictionary || {};
-(function() {
-    "use strict";
 DungeonDictionary.Alias = DungeonDictionary.Alias || {};
 DungeonDictionary.Param = DungeonDictionary.Param || {};
 DungeonDictionary.Param.names = [
@@ -89,10 +92,10 @@ DungeonDictionary.Param.crimes = [
     {crime:'smuggling', prp:'at', dialog:'I was smuggling contraband.'},
     
     // always wrong, so we don't need a crime key or research
-    {dialog:'I\'m not sure... I didn\'t do anything!'}
-    {dialog:'I got into a fight with a drunkard, it wasn\'t serious though!'}
-    {dialog:'I was jaywalking.'}
-    {dialog:'I overslept and missed work.'}
+    {dialog:'I\'m not sure... I didn\'t do anything!'},
+    {dialog:'I got into a fight with a drunkard, it wasn\'t serious though!'},
+    {dialog:'I was jaywalking.'},
+    {dialog:'I overslept and missed work.'},
     {dialog:'I\'m innocent! I\'ve done nothing wrong!.'}
 ];
 DungeonDictionary.Param.wheres = [
@@ -393,11 +396,14 @@ DungeonDictionary.Alias.extractSaveContents = DataManager.extractSaveContents;
 DataManager.extractSaveContents = function(contents) {
     DungeonDictionary.init();
     
-    DungeonDictionary.profile = contents.DungeonDictionary.profile;
-    DungeonDictionary.completed = contents.DungeonDictionary.completed || 0;
+    if (contents.DungeonDictionary != null) {
+        DungeonDictionary.profile = contents.DungeonDictionary.profile;
+        DungeonDictionary.completed = contents.DungeonDictionary.completed || 0;
+    }
+    else {
+        DungeonDictionary.profile = null;
+        DungeonDictionary.completed = 0;
+    }
     
     DungeonDictionary.Alias.extractSaveContents(contents);
 };
-
-
-})();
