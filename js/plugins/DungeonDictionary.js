@@ -2,11 +2,18 @@
 // DungeonDictionary.js
 //=============================================================================
 
+/*:
+ * @plugindesc v0.0.1 DungeonDictionary
+ * @author Rhaokiel
+ */
+ 
 var Imported = Imported || {};
-var DungeonDictionary = DungeonDictionary || {};
-DungeonDictionary.Alias = DungeonDictionary.Alias || {};
 Imported.DungeonDictionary = '0.0.1';
 
+var DungeonDictionary = DungeonDictionary || {};
+(function() {
+    "use strict";
+DungeonDictionary.Alias = DungeonDictionary.Alias || {};
 DungeonDictionary.Param = DungeonDictionary.Param || {};
 DungeonDictionary.Param.names = [
     {name:'Timothy'},
@@ -391,3 +398,6 @@ DataManager.extractSaveContents = function(contents) {
     
     DungeonDictionary.Alias.extractSaveContents(contents);
 };
+
+
+})();
