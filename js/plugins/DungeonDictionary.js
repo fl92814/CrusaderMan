@@ -117,7 +117,7 @@ DungeonDictionary.Param.wheres = [
     {where:'the arena'},
     
     // generic if {where} appears in the dialog
-    {dialog:'I was at {where}.'}
+    {dialog:'I was at {where}.'},
     {dialog:'I was at {where}?'}
 ];
 DungeonDictionary.Param.research = [
