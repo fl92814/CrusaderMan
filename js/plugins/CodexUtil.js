@@ -2,6 +2,9 @@
 // CodexUtil.js
 //=============================================================================
 
+var Imported = Imported || {};
+Imported.CodexUtil = '0.0.2';
+
 /*:
  * @plugindesc v0.0.2 CodexUtil helper functions for scripting
  * @author Rhaokiel

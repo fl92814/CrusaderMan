@@ -2,10 +2,23 @@
 // DungeonDictionary.js
 //=============================================================================
 
+var Imported = Imported || {};
+Imported.DungeonDictionary = '0.0.2';
+
 /*:
  * @plugindesc v0.0.2 DungeonDictionary
  * @author Rhaokiel
  * 
+ * @help
+ * DungeonDictionary.createProfile();
+ * DungeonDictionary.playerChoose(dialogueType, choice);
+ * DungeonDictionary.successRate();
+ */
+ 
+if (Imported.CodexUtil < '0.0.2')
+    console.error("DungeonDictionary requires CodexUtil v0.0.2");
+ 
+/*:
  * PARAMETERS ARE DISABLED BECAUSE EDITOR IS DUMB, USE SPACE IN CODE BELOW FOR DICTIONARY
  * @ param names
  * @ parent Dictionary
@@ -26,13 +39,8 @@
  * @ parent Dictionary
  * @ type struct<NameEntry>[]
  * @ desc Potential scenes of crime for prisoner
- * 
- * @help
- * DungeonDictionary.createProfile();
- * DungeonDictionary.playerChoose(dialogueType, choice);
- * DungeonDictionary.successRate();
  */
- 
+
  /*~struct~NameEntry:
  * @param name
  * @type string
@@ -100,9 +108,6 @@
  * @default null
  * @desc What a prisoner might say when asked about the scene of their crime
  */
- 
-var Imported = Imported || {};
-Imported.DungeonDictionary = '0.0.2';
 
 var DungeonDictionary = DungeonDictionary || {};
 DungeonDictionary.Alias = DungeonDictionary.Alias || {};
