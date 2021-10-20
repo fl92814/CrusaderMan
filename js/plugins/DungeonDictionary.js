@@ -371,20 +371,21 @@ DungeonDictionary.createProfile = function() {
     }
     if (profile.status.crime == 1)
     {
-        if (Math.floor(Math.random()*2) == 0)
+        // TODO: need to limit to only tags that contain {crime} and use profile if result is empty
+        //if (Math.floor(Math.random()*2) == 0)
             profile.dialogue.crime = profile.crime.dialogue || profile.crime.crime.capitalize();
-        else
-        {
-            var dlg;
-            do {
-                dlg = DEF.crimesdialogue.getRandom();
-                dlg = dlg.dialogue;
-            } while(!dlg.includes('{crime}')
-                 || (dlg.includes('{name}') && profile.status.name == 0)
-                 || (dlg.includes('{job}') && profile.status.job == 0)
-                 || (dlg.includes('{where}') && profile.status.where == 0));
-            profile.dialogue.crime = dlg;
-        }
+        //else
+        //{
+        //    var dlg;
+        //    do {
+        //        dlg = DEF.crimesdialogue.getRandom();
+        //        dlg = dlg.dialogue;
+        //    } while(!dlg.includes('{crime}')
+        //         || (dlg.includes('{name}') && profile.status.name == 0)
+        //         || (dlg.includes('{job}') && profile.status.job == 0)
+        //         || (dlg.includes('{where}') && profile.status.where == 0));
+        //    profile.dialogue.crime = dlg;
+        //}
     }
     else
     {
