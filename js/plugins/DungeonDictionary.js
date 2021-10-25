@@ -141,26 +141,26 @@ DungeonDictionary.Param.names = [
     {dialogue:"I'm {name} the {job}! Why have I been detained?"} // having a second tag means that they both have to be the same validity
 ];
 DungeonDictionary.Param.jobs = [
-    {job:"sailor"},
-    {job:"farmer", dialogue:"I'm a farmer! I grow crops!"},
-    {job:"bandit", maleFace:"Faces2_4"},
-    {job:"priest"},
-    {job:"guard"},
-    {job:"innkeeper"},
-    {job:"shopkeeper"},
-    {job:"blacksmith"},
-    {job:"traveler"},
-    {job:"trader"},
-    {job:"knight"},
-    {job:"seer"},
-    {job:"king"},
-    {job:"beggar"},
-    {job:"jester"},
-    {job:"dancer"},
-    {job:"singer"},
-    {job:"outlaw"},
-    {job:"pirate"},
-    {job:"fisherman"},
+    {job:"sailor", maleFace:"FacesDung1_1", femaleFace:"FacesDung1_2"},
+    {job:"farmer", maleFace:"FacesDung1_3", femaleFace:"FacesDung1_4", dialogue:"I'm a farmer! I grow crops!"},
+    {job:"bandit", maleFace:"FacesDung1_5", femaleFace:"FacesDung1_6"},
+    {job:"priest", maleFace:"FacesDung1_7", femaleFace:"FacesDung1_8"},
+    {job:"guard", maleFace:"FacesDung2_1", femaleFace:"FacesDung2_2"},
+    {job:"innkeeper", maleFace:"FacesDung2_3", femaleFace:"FacesDung2_4"},
+    {job:"shopkeeper", maleFace:"FacesDung2_5", femaleFace:"FacesDung2_6"},
+    {job:"blacksmith", maleFace:"FacesDung2_7", femaleFace:"FacesDung2_8"},
+    {job:"traveler", maleFace:"FacesDung3_1", femaleFace:"FacesDung3_2"},
+    {job:"trader", maleFace:"FacesDung3_3", femaleFace:"FacesDung3_4"},
+    {job:"knight", maleFace:"FacesDung3_5", femaleFace:"FacesDung3_6"},
+    {job:"seer", maleFace:"FacesDung3_7", femaleFace:"FacesDung3_8"},
+    {job:"king", maleFace:"FacesDung4_1", femaleFace:"FacesDung4_2"},
+    {job:"beggar", maleFace:"FacesDung4_3", femaleFace:"FacesDung4_4"},
+    {job:"jester", maleFace:"FacesDung4_5", femaleFace:"FacesDung4_6"},
+    {job:"dancer", maleFace:"FacesDung4_7", femaleFace:"FacesDung4_8"},
+    {job:"singer", maleFace:"FacesDung5_1", femaleFace:"FacesDung5_2"},
+    {job:"outlaw", maleFace:"FacesDung5_3", femaleFace:"FacesDung5_4"},
+    {job:"pirate", maleFace:"FacesDung5_5", femaleFace:"FacesDung5_6"},
+    {job:"fisherman", maleFace:"FacesDung5_7", femaleFace:"FacesDung5_8"},
     
     // generic if {job} appears in the dialogue
     {dialogue:"I'm... a {job}"}
@@ -280,6 +280,11 @@ DungeonDictionary.createProfile = function() {
     var DEF = DungeonDictionary.Param;
     var profile = {
         dialogue: {},
+        truth: {},
+        lie: {},
+        innocent: "Thanks, sucker! seeya!",
+        guilty: "Dangit! I was so close!",
+        noEvidence: "With what evidence? I think you owe me for\nemotional damages!",
         status: { // 0 = expect wrong, 1 = expect right, 2 = player mismatch, 3 = player correct
             name:  Math.floor(Math.random()*2),
             job:   Math.floor(Math.random()*2),
@@ -298,17 +303,18 @@ DungeonDictionary.createProfile = function() {
     // get face based on gender
     switch (profile.name.gender)
     {
-        case "M": profile.face = profile.job.maleFace || DEF.defaultFace; break;
-        case "F": profile.face = profile.job.femaleFace || DEF.defaultFace; break;
-        default:
-            if (Math.floor(Math.random()*2) == 0)
-                profile.face = profile.job.maleFace || profile.job.femaleFace || DEF.defaultFace;
-            else
-                profile.face = profile.job.femaleFace || profile.job.maleFace || DEF.defaultFace;
+        case "M": 
+            profile.face = profile.job.maleFace || DEF.defaultFace;
+            profile.pronounSub = "he";
+            break;
+        case "F":
+            profile.face = profile.job.femaleFace || DEF.defaultFace; 
+            profile.pronounSub = "she";
             break;
     }
     
     // create dialogue name, job, crime, and where based on status if match
+    // TODO: create responses truth or lie for name, job, crime, and where
     if (profile.status.name == 1)
     {
         if (Math.floor(Math.random()*2) == 0)
@@ -325,6 +331,9 @@ DungeonDictionary.createProfile = function() {
                  || (dlg.includes('{where}') && profile.status.where == 0));
             profile.dialogue.name = dlg;
         }
+
+        profile.truth.name = "That's It!";
+        profile.lie.name = "What!?";
     }
     else
     {
@@ -338,6 +347,9 @@ DungeonDictionary.createProfile = function() {
              || (dlg.includes('{crime}') && profile.status.crime == 0)
              || (dlg.includes('{where}') && profile.status.where == 0));
         profile.dialogue.name = dlg;
+        
+        profile.truth.name = "Haha got ya!";
+        profile.lie.name = "How did you know?";
     }
     if (profile.status.job == 1)
     {
@@ -355,6 +367,9 @@ DungeonDictionary.createProfile = function() {
                  || (dlg.includes('{where}') && profile.status.where == 0));
             profile.dialogue.job = dlg;
         }
+        
+        profile.truth.job = "That's It!";
+        profile.lie.job = "What!?";
     }
     else
     {
@@ -368,6 +383,9 @@ DungeonDictionary.createProfile = function() {
              || (dlg.includes('{crime}') && profile.status.crime == 0)
              || (dlg.includes('{where}') && profile.status.where == 0));
         profile.dialogue.job = dlg;
+        
+        profile.truth.job = "Haha got ya!";
+        profile.lie.job = "How did you know?";
     }
     if (profile.status.crime == 1)
     {
@@ -386,6 +404,9 @@ DungeonDictionary.createProfile = function() {
         //         || (dlg.includes('{where}') && profile.status.where == 0));
         //    profile.dialogue.crime = dlg;
         //}
+        
+        profile.truth.crime = "That's It!";
+        profile.lie.crime = "What!?";
     }
     else
     {
@@ -399,6 +420,9 @@ DungeonDictionary.createProfile = function() {
              || (dlg.includes('{job}') && profile.status.job == 0)
              || (dlg.includes('{where}') && profile.status.where == 0));
         profile.dialogue.crime = dlg;
+        
+        profile.truth.crime = "Haha got ya!";
+        profile.lie.crime = "How did you know?";
     }
     if (profile.status.where == 1)
     {
@@ -415,7 +439,10 @@ DungeonDictionary.createProfile = function() {
                  || (dlg.includes('{job}') && profile.status.job == 0)
                  || (dlg.includes('{crime}') && profile.status.crime == 0));
             profile.dialogue.where = dlg;
-        }
+        
+        
+        profile.truth.where = "That's It!";
+        profile.lie.where = "What!?";
     }
     else
     {
@@ -429,6 +456,9 @@ DungeonDictionary.createProfile = function() {
              || (dlg.includes('{job}') && profile.status.job == 0)
              || (dlg.includes('{crime}') && profile.status.crime == 0));
         profile.dialogue.where = dlg;
+        
+        profile.truth.where = "Haha got ya!";
+        profile.lie.where = "How did you know?";
     }
     
     // collapse structures
