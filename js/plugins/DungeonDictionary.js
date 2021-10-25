@@ -303,10 +303,16 @@ DungeonDictionary.createProfile = function() {
     // get face based on gender
     switch (profile.name.gender)
     {
-        case "M": 
+        case "M":
             profile.face = profile.job.maleFace || DEF.defaultFace;
             profile.pronounSub = "he";
             break;
+        default:
+            if (Math.floor(Math.random()*2) == 0) {
+                profile.face = profile.job.maleFace || DEF.defaultFace;
+                profile.pronounSub = "he";
+                break;
+            }
         case "F":
             profile.face = profile.job.femaleFace || DEF.defaultFace; 
             profile.pronounSub = "she";
@@ -439,7 +445,7 @@ DungeonDictionary.createProfile = function() {
                  || (dlg.includes('{job}') && profile.status.job == 0)
                  || (dlg.includes('{crime}') && profile.status.crime == 0));
             profile.dialogue.where = dlg;
-        
+        }
         
         profile.truth.where = "That's It!";
         profile.lie.where = "What!?";
