@@ -233,7 +233,7 @@ DungeonDictionary.init = function() {
     }
 };
 
-DungeonDictionary.replacedialogueTags = function(dlg, profile, match) {
+DungeonDictionary.replaceDialogueTags = function(dlg, profile, match) {
     if (match) {
         return dlg.replace('{name}', profile.name)
                   .replace('{job}', profile.job)
@@ -246,28 +246,28 @@ DungeonDictionary.replacedialogueTags = function(dlg, profile, match) {
             var n;
             do n = DungeonDictionary.Param.namesRaw.getRandom().name;
             while(profile.name == n);
-            dlg.replace('{name}', n);
+            dlg = dlg.replace('{name}', n);
         }
         if (dlg.includes('{job}')) {
             var j;
             do j = DungeonDictionary.Param.jobsRaw.getRandom().job;
             while(profile.job == j);
-            dlg.replace('{job}', j);
+            dlg = dlg.replace('{job}', j);
         }
         if (dlg.includes('{crime}')) {
             var c;
             do c = DungeonDictionary.Param.crimesRaw.getRandom();
             while(profile.crime == c.crime);
-            dlg.replace('{crime}', c.crime);
+            dlg = dlg.replace('{crime}', c.crime);
             if (dlg.includes('{preposition}')) {
-                dlg.replace('{preposition}', c.preposition);
+                dlg = dlg.replace('{preposition}', c.preposition);
             }
         }
         if (dlg.includes('{where}')) {
             var w;
             do w = DungeonDictionary.Param.wheresRaw.getRandom().where;
             while(profile.where == w);
-            dlg.replace('{where}', w);
+            dlg = dlg.replace('{where}', w);
         }
         return dlg;
     }
@@ -474,10 +474,10 @@ DungeonDictionary.createProfile = function() {
     profile.where = profile.where.where;
     
     // replace tags in dialogues
-    profile.dialogue.name  = DungeonDictionary.replacedialogueTags(profile.dialogue.name, profile, profile.status.name == 1);
-    profile.dialogue.job   = DungeonDictionary.replacedialogueTags(profile.dialogue.job, profile, profile.status.job == 1);
-    profile.dialogue.crime = DungeonDictionary.replacedialogueTags(profile.dialogue.crime, profile, profile.status.crime == 1);
-    profile.dialogue.where = DungeonDictionary.replacedialogueTags(profile.dialogue.where, profile, profile.status.where == 1);
+    profile.dialogue.name  = DungeonDictionary.replaceDialogueTags(profile.dialogue.name, profile, profile.status.name == 1);
+    profile.dialogue.job   = DungeonDictionary.replaceDialogueTags(profile.dialogue.job, profile, profile.status.job == 1);
+    profile.dialogue.crime = DungeonDictionary.replaceDialogueTags(profile.dialogue.crime, profile, profile.status.crime == 1);
+    profile.dialogue.where = DungeonDictionary.replaceDialogueTags(profile.dialogue.where, profile, profile.status.where == 1);
     
     return DungeonDictionary.profile = profile;
 };

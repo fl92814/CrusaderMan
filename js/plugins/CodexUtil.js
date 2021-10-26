@@ -24,7 +24,9 @@ String.prototype.capitalize = function() {
 Game_Message.prototype.wrapText = function(text) {
     var scn = SceneManager._scene;
     if (scn instanceof Scene_Map || scn instanceof Scene_Battle) {
-        var wrapX = scn._messageWindow.newLineX()
+        //var wrapX = scn._messageWindow.newLineX();
+        
+        var wrapX = $gameMessage.faceName() === '' ? 39 : 47;
         if (wrapX > 0) {
             var x = wrapX;
             while (text.length > x) {
