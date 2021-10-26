@@ -24,21 +24,23 @@ String.prototype.capitalize = function() {
 Game_Message.prototype.wrapText = function(text) {
     var scn = SceneManager._scene;
     if (scn instanceof Scene_Map || scn instanceof Scene_Battle) {
-        //var wrapX = scn._messageWindow.newLineX();
-        
-        var wrapX = $gameMessage.faceName() === '' ? 47 : 39;
-        if (wrapX > 0) {
-            var x = wrapX;
-            while (text.length > x) {
-                var i = text.lastIndexOf(' ', x);
-                if (i <= 0)
-                    i = text.indexOf(' ', x);
-                if (i <= 0)
+        var wnd = scn._messageWindow;
+        var wrapX = wnd.contents.width - wnd.newLineX();
+        var from = 0;
+        var to = text.indexOf(' ', 1);
+        if (to > 0)
+            while (1) {
+                var nxt = text.indexOf(' ', to + 1)
+                if (nxt < 0)
                     return text;
-                text = text.slice(0, i) + '\n' + text.slice(i+1);
-                x = i + wrapX;
-            }   
-        }
+                if (wnd.textWidth(wnd.convertEscapeCharacters(text.slice(from, nxt))) < wrapX)
+                    to = nxt;
+                else {
+                    text = text.slice(0, to) + '\n' + text.slice(to+1);
+                    from = to + 1;
+                    to = nxt;
+                }
+            }
     }
     return text;
 };
