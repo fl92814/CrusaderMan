@@ -179,6 +179,13 @@ if (!Galv.aliased) {
 	Galv.aliased = true; // Don't keep aliasing for other Galv scripts.
 };
 
+Galv.MB.DataManager_createGameObjects = DataManager.createGameObjects;
+DataManager.createGameObjects = function() {
+	Galv.MB.DataManager_createGameObjects.call(this);
+	$gameSystem.bustPos = $gameSystem.bustPos || 0;
+	$gameMessage.bustOffset = $gameMessage.bustOffset || Galv.MB.w;
+};
+
 // Direct to Plugin Object
 Galv.pCmd.BUST = function(arguments) {
 	Galv.MB.bustPos(arguments);
@@ -232,8 +239,6 @@ Game_Message.prototype.setFaceImage = function(faceName, faceIndex) {
 Galv.MB.Window_Message_startMessage = Window_Message.prototype.startMessage;
 Window_Message.prototype.startMessage = function() {
 	Galv.MB.msgWindow = this;
-	$gameSystem.bustPos = $gameSystem.bustPos || 0;
-	$gameMessage.bustOffset = $gameMessage.bustOffset || Galv.MB.w;
 	Galv.MB.Window_Message_startMessage.call(this);
 	Galv.MB.msgWindow.tempPosType = this._positionType;
 };
