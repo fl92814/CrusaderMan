@@ -32,7 +32,7 @@ Game_Message.prototype.wrapText = function(text) {
             while (1) {
                 var nxt = text.indexOf(' ', to + 1)
                 if (nxt < 0) {
-                    if (wnd.textWidth(wnd.convertEscapeCharacters(text.slice(from))) > wrapX)
+                    if (wnd.textWidth(wnd.convertEscapeCharacters(text.slice(from))) >= wrapX)
                         text = text.slice(0, to) + '\n' + text.slice(to+1);
                     return text;
                 }
