@@ -129,7 +129,7 @@ DungeonDictionary.Param.names = [
     {name:"Tessa", gender:"F"},
     {name:"Meghan", gender:"F"},
     {name:"Creg", gender:"M"},
-    {name:"Nunya", gender:"F"},
+    {name:"Nunya", dialogue:"Name's Nunya.\|.. Nunya Business"},
     {name:"Tom", gender:"M"},
     {name:"Mike", gender:"M"},
     {name:"Dave", gender:"M"},
@@ -163,7 +163,9 @@ DungeonDictionary.Param.jobs = [
     {job:"fisherman", maleFace:"FacesDung5_7", femaleFace:"FacesDung5_8"},
     
     // generic if {job} appears in the dialogue
-    {dialogue:"I'm... a {job}"}
+    {dialogue:"I'm... a {job}"},
+    {dialogue:"I'm a {job}"},
+    {dialogue:"I work as a {job}"}
 ];
 DungeonDictionary.Param.crimes = [
     {crime:"stole a blessed candle", prp:"from", dialogue:"Blessed candles sell for a ton!"},
@@ -214,6 +216,8 @@ DungeonDictionary.Param.wheres = [
     
     // generic if {where} appears in the dialogue
     {dialogue:"I was at {where}."},
+    {dialogue:"It happened at {where}."},
+    {dialogue:"They arrested me at {where}."},
     {dialogue:"I was at {where}?"}
 ];
 
