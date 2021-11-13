@@ -2,7 +2,7 @@
 null,
 {"id":1,"atypeId":1,"description":"A stock shield.","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":68,"name":"Shield","note":"","params":[0,0,0,1,0,0,0,0],"price":20},
 {"id":2,"atypeId":1,"description":"A stock shield.","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":68,"name":"Kite Shield","note":"","params":[0,0,0,2,0,0,0,0],"price":100},
-{"id":3,"atypeId":1,"description":"A stock armor.","etypeId":4,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":76,"name":"Clothes","note":"","params":[0,0,0,1,0,0,0,0],"price":0},
+{"id":3,"atypeId":1,"description":"A stock armor.","etypeId":4,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":76,"name":"Clothes","note":"","params":[0,0,0,1,0,0,0,0],"price":1},
 {"id":4,"atypeId":1,"description":"A stock armor.","etypeId":4,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":76,"name":"Leather Armor","note":"","params":[0,0,0,2,0,0,0,0],"price":180},
 {"id":5,"atypeId":1,"description":"A stock helm.","etypeId":3,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":72,"name":"Hat","note":"","params":[0,0,0,1,0,0,0,0],"price":80},
 {"id":6,"atypeId":1,"description":"A stock helm.","etypeId":3,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":72,"name":"Helmet","note":"","params":[0,0,0,2,0,0,0,0],"price":220},
