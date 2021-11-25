@@ -54,5 +54,6 @@ var $plugins =
 {"name":"MenuMouseScroll","status":true,"description":"Enable mouse wheel and touch swipe to scroll through party members in main menu.\r\nincluding the Skill, Equip, and Status screens","parameters":{"Move Threshold":"5"}},
 {"name":"YED_SideviewBattler","status":true,"description":"v1.1.0 This plugin allows user to use any kind of sideview battler.","parameters":{"[Default Setting]":"","Default Frames":"6","Default Speed":"12","Default Frame Width":"192","Default Frame Height":"192","Enable Weapon":"true"}},
 {"name":"HealOnLevelUp","status":true,"description":"Allows you to heal actors on level up","parameters":{"All HP":"Y","All MP":"Y","All States":"N"}},
-{"name":"SavesInLocalData","status":true,"description":"Causes desktop save files to be saved in/loaded from local application directories rather than alongside game data.","parameters":{}}
+{"name":"SavesInLocalData","status":true,"description":"Causes desktop save files to be saved in/loaded from local application directories rather than alongside game data.","parameters":{}},
+{"name":"DistanceFunction","status":true,"description":"","parameters":{}}
 ];
