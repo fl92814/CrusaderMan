@@ -80,5 +80,8 @@ null,
 {"id":78,"atypeId":4,"description":"Symbol of your bond with Bick.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":83,"name":"Bond of Swamp","note":"<Text Color: 22>","params":[0,0,0,0,0,0,0,5],"price":20},
 {"id":79,"atypeId":4,"description":"Symbol of your bond with Vipress.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":83,"name":"Bond of Beast","note":"<Text Color: 22>","params":[0,0,5,0,0,0,0,0],"price":20},
 {"id":80,"atypeId":4,"description":"Symbol of your bond with Penter.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":83,"name":"Bond of Armor","note":"<Text Color: 22>","params":[0,0,0,5,0,0,0,0],"price":20},
-{"id":81,"atypeId":4,"description":"Symbol of your bond with Johnny.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":83,"name":"Bond of Charm","note":"<Text Color: 22>","params":[0,0,0,0,0,0,5,0],"price":20}
+{"id":81,"atypeId":4,"description":"Symbol of your bond with Johnny.","etypeId":5,"traits":[{"code":22,"dataId":1,"value":0}],"iconIndex":83,"name":"Bond of Charm","note":"<Text Color: 22>","params":[0,0,0,0,0,0,5,0],"price":20},
+{"id":82,"atypeId":1,"description":"A stock armor. Resists Ice.","etypeId":4,"traits":[{"code":22,"dataId":1,"value":0},{"code":11,"dataId":3,"value":0.85}],"iconIndex":76,"name":"Coldmail","note":"<No New Game+ Carry Over>","params":[0,0,0,8,0,0,0,0],"price":2300},
+{"id":83,"atypeId":1,"description":"A stock helm. Resists Ice.","etypeId":3,"traits":[{"code":22,"dataId":1,"value":0},{"code":11,"dataId":3,"value":0.85}],"iconIndex":72,"name":"Coldhelm","note":"<No New Game+ Carry Over>","params":[0,0,0,7,0,0,0,0],"price":1800},
+{"id":84,"atypeId":1,"description":"A stock shield. Resists Ice.","etypeId":2,"traits":[{"code":22,"dataId":1,"value":0},{"code":11,"dataId":3,"value":0.85}],"iconIndex":68,"name":"Coldshield","note":"<No New Game+ Carry Over>","params":[0,0,0,7,0,0,0,0],"price":1800}
 ]
