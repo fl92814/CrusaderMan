@@ -358,7 +358,9 @@ ConfigManager.makeData = function() {
 Yanfly.Autosave.ConfigManager_applyData = ConfigManager.applyData;
 ConfigManager.applyData = function(config) {
   Yanfly.Autosave.ConfigManager_applyData.call(this, config);
-  this.autosave = config['autosave'] || Yanfly.Param.AutosaveDefault;
+  this.autosave = config['autosave'];
+  if (this.autosave === undefined)
+      this.autosave = Yanfly.Param.AutosaveDefault;
 };
 
 //=============================================================================
@@ -426,7 +428,7 @@ Game_System.prototype.initAutosave = function() {
 
 Game_System.prototype.canAutosave = function() {
   if (this._allowAutosave === undefined) this.initAutosave();
-  return this._allowAutosave;
+  return ConfigManager.autosave && this._allowAutosave;
 };
 
 Game_System.prototype.setAutosave = function(value) {
