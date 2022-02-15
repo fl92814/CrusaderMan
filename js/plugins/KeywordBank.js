@@ -42,6 +42,8 @@
  */
 
 var Imported = Imported || {};
+Imported.KeywordBank = '0.0.3';
+
 var KeywordBank = KeywordBank || {};
 KeywordBank.Alias = KeywordBank.Alias || {};
 
@@ -171,7 +173,7 @@ KeywordBank.Alias = KeywordBank.Alias || {};
         }
         
         return savedata;
-    }
+    };
     
     KeywordBank.load = function(savedata) {
         if (!KeywordBank.KeywordGroups)
@@ -191,34 +193,32 @@ KeywordBank.Alias = KeywordBank.Alias || {};
                 }
             }
         }
-    }
+    };
     
 
     KeywordBank.Alias.makeSaveContents = DataManager.makeSaveContents;
     DataManager.makeSaveContents = function() {
-        var contents = KeywordBank.Alias.makeSaveContents();
+        var contents = KeywordBank.Alias.makeSaveContents.call(this);
         contents.KeywordGroups = KeywordBank.save();
         return contents;
     };
 
     KeywordBank.Alias.extractSaveContents = DataManager.extractSaveContents;
     DataManager.extractSaveContents = function(contents) {
-        KeywordBank.Alias.extractSaveContents(contents);
+        KeywordBank.Alias.extractSaveContents.call(this,contents);
         KeywordBank.load(contents.KeywordGroups);
     };
     
     
     KeywordBank.Alias.prepareNewGamePlusData = DataManager.prepareNewGamePlusData;
     DataManager.prepareNewGamePlusData = function() {
-        KeywordBank.Alias.prepareNewGamePlusData();
+        KeywordBank.Alias.prepareNewGamePlusData.call(this);
         this._ngpData.KeywordGroups = KeywordBank.save();
     };
     
     KeywordBank.Alias.carryOverNewGamePlusPartyData = DataManager.carryOverNewGamePlusPartyData;
     DataManager.carryOverNewGamePlusPartyData = function() {
-        KeywordBank.Alias.carryOverNewGamePlusPartyData();
+        KeywordBank.Alias.carryOverNewGamePlusPartyData.call(this);
         KeywordBank.load(this._ngpData.KeywordGroups);
     };
 })();
-
-Imported.KeywordBank = '0.0.2';

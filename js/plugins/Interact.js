@@ -210,13 +210,13 @@
  * @desc Maximum amound of characters per line
  */
 
+var Imported = Imported || {};
+Imported.Interact = '0.0.4';
+
 var Interact = Interact || {};
 Interact.Alias = Interact.Alias || {};
 Interact.DefaultParameters = PluginManager.parameters('Interact');
 Interact.Parameters = Interact.Parameters || {};
-
-var Imported = Imported || {};
-Imported.Interact = '0.0.3';
 
 if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
 
