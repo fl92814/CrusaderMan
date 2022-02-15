@@ -43,6 +43,7 @@
 
 var Imported = Imported || {};
 var KeywordBank = KeywordBank || {};
+KeywordBank.Alias = KeywordBank.Alias || {};
 
 (function() {
     "use strict";
@@ -136,15 +137,15 @@ var KeywordBank = KeywordBank || {};
         return unlockedKeywords;
     };
 
-    var old_setupNewGameFunction = DataManager.setupNewGame;
+    KeywordBank.Alias.setupNewGame = DataManager.setupNewGame;
     DataManager.setupNewGame = function () {
-        old_setupNewGameFunction.call(this);
+        KeywordBank.Alias.setupNewGame.call(this);
         KeywordBank.resetToDefault();
     };
 
-    var old_pluginCommand = Game_Interpreter.prototype.pluginCommand;
+    KeywordBank.Alias.pluginCommand = Game_Interpreter.prototype.pluginCommand;
     Game_Interpreter.prototype.pluginCommand = function(pluginCommand, args) {
-        old_pluginCommand.call(this, pluginCommand, args);
+        KeywordBank.Alias.pluginCommand.call(this, pluginCommand, args);
         if (pluginCommand === "keywordbank") {
             var command = args[0];
             switch(command)
@@ -157,35 +158,31 @@ var KeywordBank = KeywordBank || {};
         }
     };
 
-    var Old_DataManager_makeSaveContents = DataManager.makeSaveContents;
-    DataManager.makeSaveContents = function() {
-        var contents = Old_DataManager_makeSaveContents();
-        
-        contents.KeywordGroups = {};
+    
+    KeywordBank.save = function() {
+        var savedata = {};
         
         // save just the locked status of each keyword
         for (var group in KeywordBank.KeywordGroups) {
-            contents.KeywordGroups[group] = {}
+            savedata[group] = {}
             for (var keyword in KeywordBank.KeywordGroups[group]) {
-                contents.KeywordGroups[group][keyword] = KeywordBank.KeywordGroups[group][keyword].locked;
+                savedata[group][keyword] = KeywordBank.KeywordGroups[group][keyword].locked;
             }
         }
         
-        return contents;
-    };
-
-
-    var Old_DataManager_extractSaveContents = DataManager.extractSaveContents;
-    DataManager.extractSaveContents = function(contents) {
+        return savedata;
+    }
+    
+    KeywordBank.load = function(savedata) {
         if (!KeywordBank.KeywordGroups)
             KeywordBank.resetToDefault();
         
         // update keyword bank from saved contents
         for (var group in KeywordBank.KeywordGroups) {
-            if (contents.KeywordGroups.hasOwnProperty(group)) {
+            if (savedata.hasOwnProperty(group)) {
                 for (var keyword in KeywordBank.KeywordGroups[group]) {
-                    if (contents.KeywordGroups[group].hasOwnProperty(keyword)) {
-                        var kwInfo = contents.KeywordGroups[group][keyword];
+                    if (savedata[group].hasOwnProperty(keyword)) {
+                        var kwInfo = savedata[group][keyword];
                         if (typeof kwInfo === "boolean")
                             KeywordBank.KeywordGroups[group][keyword].locked = kwInfo;
                         else
@@ -194,8 +191,33 @@ var KeywordBank = KeywordBank || {};
                 }
             }
         }
-        
-        Old_DataManager_extractSaveContents(contents);
+    }
+    
+
+    KeywordBank.Alias.makeSaveContents = DataManager.makeSaveContents;
+    DataManager.makeSaveContents = function() {
+        var contents = KeywordBank.Alias.makeSaveContents();
+        contents.KeywordGroups = KeywordBank.save();
+        return contents;
+    };
+
+    KeywordBank.Alias.extractSaveContents = DataManager.extractSaveContents;
+    DataManager.extractSaveContents = function(contents) {
+        KeywordBank.Alias.extractSaveContents(contents);
+        KeywordBank.load(contents.KeywordGroups);
+    };
+    
+    
+    KeywordBank.Alias.prepareNewGamePlusData = DataManager.prepareNewGamePlusData;
+    DataManager.prepareNewGamePlusData = function() {
+        KeywordBank.Alias.prepareNewGamePlusData();
+        this._ngpData.KeywordGroups = KeywordBank.save();
+    };
+    
+    KeywordBank.Alias.carryOverNewGamePlusPartyData = DataManager.carryOverNewGamePlusPartyData;
+    DataManager.carryOverNewGamePlusPartyData = function() {
+        KeywordBank.Alias.carryOverNewGamePlusPartyData();
+        KeywordBank.load(this._ngpData.KeywordGroups);
     };
 })();
 

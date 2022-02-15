@@ -351,6 +351,8 @@ function QInput() {
     restart: [_PARAMS['Restart']],
     console: [_PARAMS['Console']]
   };
+  
+  QInput.suspend = false;
 
   // Key codes from
   // https://msdn.microsoft.com/en-us/library/dd375731(v=VS.85).aspx
@@ -408,62 +410,86 @@ function QInput() {
   // values, which is needed if you are using an in game key remapper so it knows
   // what value to set it when setting all the keys back to default.
   QInput.remap = function(key) {
+    if (QInput.suspend) {
+        // suspend to keyboard typing layout
+        switch (key) {
+          case 'tab':
+            return '#tab';
+          case 'ok':
+            return ['#enter','#space','$A'];
+          case 'shift':
+            return ['#shift','#cancel','$X'];
+          case 'control':
+            return ['#ctrl','#alt'];
+          case 'menu':
+            return ['#esc','$Y']
+          case 'escape':
+          case 'cancel':
+            return ['#esc','$B'];
+          case 'pageup':
+            return ['#pageup','$L1'];
+          case 'pagedown':
+            return ['#pagedown','$R1'];
+          case 'left':
+            return ['#left','$LEFT'];
+          case 'right':
+            return ['#right','$RIGHT'];
+          case 'up':
+            return ['#up','$UP'];
+          case 'down':
+            return ['#down','$DOWN'];
+          case 'debug':
+            return '#F9'
+          case 'fps':
+            return '#F2';
+          case 'streched':
+            return '#F3';
+          case 'fullscreen':
+            return '#F4';
+          case 'restart':
+            return '#F5';
+          case 'console':
+            return '#F8';
+        }
+    }
     switch (key) {
       case 'tab':
         return ConfigManager.keys['tab'];
-        break;
       case 'ok':
         return ConfigManager.keys['ok'];
-        break;
       case 'shift':
         return ConfigManager.keys['shift'];
-        break;
       case 'control':
         return ConfigManager.keys['control'];
-        break;
       case 'menu':
         return ConfigManager.keys['menu'];
-        break;
       case 'escape':
       case 'cancel':
         return ConfigManager.keys['escape'];
-        break;
       case 'pageup':
         return ConfigManager.keys['pageup'];
-        break;
       case 'pagedown':
         return ConfigManager.keys['pagedown'];
-        break;
       case 'left':
         return ConfigManager.keys['left'];
-        break;
       case 'right':
         return ConfigManager.keys['right'];
-        break;
       case 'up':
         return ConfigManager.keys['up'];
-        break;
       case 'down':
         return ConfigManager.keys['down'];
-        break;
       case 'debug':
         return ConfigManager.keys['debug'];
-        break;
       case 'fps':
         return Number(this.keyAt(ConfigManager.keys['fps'])) || 113;
-        break;
       case 'streched':
         return Number(this.keyAt(ConfigManager.keys['streched'])) || 114;
-        break;
       case 'fullscreen':
         return Number(this.keyAt(ConfigManager.keys['fullscreen'])) || 115;
-        break;
       case 'restart':
         return Number(this.keyAt(ConfigManager.keys['restart'])) || 116;
-        break;
       case 'console':
         return Number(this.keyAt(ConfigManager.keys['console'])) || 119;
-        break;
     }
   };
 
