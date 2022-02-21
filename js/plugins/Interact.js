@@ -344,7 +344,7 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     SceneInteract.prototype.start = function() {
         Scene_MenuBase.prototype.start.call(this);
         this.m_commandDisplayWindow.refresh();
-        if (SceneInteract.prototype.useBank)
+        if (Interact.Parameters.KeywordBank.keywordGroup && SceneInteract.prototype.useBank)
             this.m_keywordBankWindow.activate();
         else
             this.m_commandInputWindow.activate();
@@ -579,7 +579,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
     
     Interact.Alias.bank_activate = WindowKeywordBank.prototype.activate;
     WindowKeywordBank.prototype.activate = function() {
-        SceneInteract.prototype.useBank = true;
+        if (Interact.Parameters.KeywordBank.keywordGroup)
+            SceneInteract.prototype.useBank = true;
         this.select(0);
         
         Interact.Alias.bank_activate.call(this);
@@ -798,7 +799,8 @@ if (!Imported.KeywordBank) console.error("This plugin requires KeywordBank");
 
     Interact.Alias.input_activate = WindowCommandInput.prototype.activate;
     WindowCommandInput.prototype.activate = function() {
-        SceneInteract.prototype.useBank = false;
+        if (Interact.Parameters.KeywordBank.keywordGroup)
+            SceneInteract.prototype.useBank = false;
         this.select(0);
         
         Interact.Alias.input_activate.call(this);
