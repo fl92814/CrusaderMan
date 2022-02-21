@@ -37,8 +37,12 @@ Galv.PMOVE = Galv.PMOVE || {};          // Galv's stuff
  * @desc true or false if you want to use diagonal charactersets (see help for more)
  * @default true
  *
- * @param Tile Delay
- * @desc No. frames delay before a below character touch event or damage tile can be repeated
+ * @param Tile Damage Delay
+ * @desc No. frames delay before a below character damage tile can be repeated
+ * @default 30
+ *
+ * @param Event Touch Delay
+ * @desc No. frames delay before a below character touch event can be repeated
  * @default 30
  *
  * @help
@@ -148,7 +152,8 @@ Galv.PMOVE = Galv.PMOVE || {};          // Galv's stuff
 Galv.PMOVE.diagMod = Number(PluginManager.parameters('Galv_PixelMove')["Diagonal Speed"]) * 0.01;
 Galv.PMOVE.diagGraphic = PluginManager.parameters('Galv_PixelMove')["Diagonal Charset"].toLowerCase() == 'true';
 
-Galv.PMOVE.tileDelay = Number(PluginManager.parameters('Galv_PixelMove')["Tile Delay"]);
+Galv.PMOVE.tileDmgDelay = Number(PluginManager.parameters('Galv_PixelMove')["Tile Damage Delay"]);
+Galv.PMOVE.evDelay = Number(PluginManager.parameters('Galv_PixelMove')["Event Touch Delay"]);
 
 
 Galv.PMOVE.xPos = function() {
@@ -195,17 +200,29 @@ Galv.PMOVE.diagRow = {
 };
 
 // DISABLE MOUSE MOVE
-Game_Player.prototype.triggerAction = function() {
-    if (this.canMove()) {
-        if (this.triggerButtonAction()) {
-            return true;
+Scene_Map.prototype.processMapTouch = function() {};
+
+Game_Player.prototype.triggerTouchAction = function() {
+    if (TouchInput.isPressed()) {
+        var direction = this.direction();
+        var x1 = this.x;
+        var y1 = this.y;
+        var x2 = $gameMap.roundXWithDirection(x1, direction);
+        var y2 = $gameMap.roundYWithDirection(y1, direction);
+        var x3 = $gameMap.roundXWithDirection(x2, direction);
+        var y3 = $gameMap.roundYWithDirection(y2, direction);
+        var destX = $gameMap.canvasToMapX(TouchInput.x);
+        var destY = $gameMap.canvasToMapY(TouchInput.y);
+        if (destX === x1 && destY === y1) {
+            return this.triggerTouchActionD1(x1, y1);
+        } else if (destX === x2 && destY === y2) {
+            return this.triggerTouchActionD2(x2, y2);
+        } else if (destX === x3 && destY === y3) {
+            return this.triggerTouchActionD3(x2, y2);
         }
     }
     return false;
 };
-
-Game_Player.prototype.triggerTouchAction = function() {};
-Scene_Map.prototype.processMapTouch = function() {};
 // END DISABLE MOUSE MOVE
 
 
@@ -470,32 +487,13 @@ Game_Event.prototype.isCollidedWithPlayerCharacters = function(x, y) {
 //-----------------------------------------------------------------------------
 //  GAME ACTOR
 //-----------------------------------------------------------------------------
-/*
-Galv.PMOVE.Game_Actor_onPlayerWalk = Game_Actor.prototype.onPlayerWalk;
-Game_Actor.prototype.onPlayerWalk = function() {
-	if ($gamePlayer.tileDelayed()) return;
-	//if (this._tileDelay === 0) this._tileDelay = Galv.PMOVE.tileDelay;
-	Galv.PMOVE.Game_Actor_onPlayerWalk.call(this);
-};
-*/
 
 Galv.PMOVE.Game_Actor_executeFloorDamage = Game_Actor.prototype.executeFloorDamage;
 Game_Actor.prototype.executeFloorDamage = function() {
-	if ($gamePlayer.tileDelayed()) return;
+	if (this._dmgDelay > 0) return;
 	Galv.PMOVE.Game_Actor_executeFloorDamage.call(this);
-	if (!$gamePlayer.tileDelayed()) $gamePlayer.setTileDelay();
+	this._dmgDelay = Galv.PMOVE.tileDmgDelay;
 };
-
-//-----------------------------------------------------------------------------
-//  GAME PARTY
-//-----------------------------------------------------------------------------
-/*
-Galv.PMOVE.Game_Party_onPlayerWalk = Game_Party.prototype.onPlayerWalk;
-Game_Party.prototype.onPlayerWalk = function() {
-	Galv.PMOVE.Game_Party_onPlayerWalk.call(this);
-	//$gamePlayer.setTileDelay();
-};
-*/
 
 
 //-----------------------------------------------------------------------------
@@ -514,14 +512,6 @@ Game_Player.prototype.update = function(sceneActive) {
 	if (this._tileDelay > 0) this._tileDelay -= 1;
 };
 
-Game_Player.prototype.setTileDelay = function() {
-	this._tileDelay = this.isDashing() ? Galv.PMOVE.tileDelay * 0.5 : Galv.PMOVE.tileDelay;
-};
-
-Game_Player.prototype.tileDelayed = function() {
-	return this._tileDelay > 0;
-};
-
 // OVERWRITE
 Game_Player.prototype.startMapEvent = function(x, y, triggers, normal) {
 	var x = Math.round(x);
@@ -529,17 +519,15 @@ Game_Player.prototype.startMapEvent = function(x, y, triggers, normal) {
     if (!$gameMap.isEventRunning()) {
         $gameMap.eventsXy(x, y).forEach(function(event) {
             if (event.isTriggerIn(triggers) && event.isNormalPriority() === normal) {
-				if (!event.event().meta.noDelay && !$gamePlayer.tileDelayed()) $gamePlayer.setTileDelay();
-                event.start();
+				if (event.event().meta.noDelay)
+                    event.start();
+                else if (!(event.delay > 0)) {
+                    event.start();
+                    event.delay = Galv.PMOVE.evDelay;
+                }
             }
         });
     }
-};
-
-Galv.PMOVE.Game_Player_checkEventTriggerHere = Game_Player.prototype.checkEventTriggerHere;
-Game_Player.prototype.checkEventTriggerHere = function(triggers) {
-	if (this.tileDelayed()) return;
-	Galv.PMOVE.Game_Player_checkEventTriggerHere.call(this,triggers);
 };
 
 Game_Player.prototype.quadDirX = function(d) {
