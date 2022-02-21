@@ -490,27 +490,15 @@ Game_Event.prototype.isCollidedWithPlayerCharacters = function(x, y) {
 
 Galv.PMOVE.Game_Actor_executeFloorDamage = Game_Actor.prototype.executeFloorDamage;
 Game_Actor.prototype.executeFloorDamage = function() {
-	if (this._dmgDelay > 0) return;
+	if (this._dmgDelay > Graphics.frameCount) return;
 	Galv.PMOVE.Game_Actor_executeFloorDamage.call(this);
-	this._dmgDelay = Galv.PMOVE.tileDmgDelay;
+	this._dmgDelay = Graphics.frameCount + Galv.PMOVE.tileDmgDelay;
 };
 
 
 //-----------------------------------------------------------------------------
 //  GAME PLAYER
 //-----------------------------------------------------------------------------
-
-Galv.PMOVE.Game_Player_initMembers = Game_Player.prototype.initMembers;
-Game_Player.prototype.initMembers = function() {
-	Galv.PMOVE.Game_Player_initMembers.call(this);
-	this._tileDelay = 0;
-};
-
-Galv.PMOVE.Game_Player_update = Game_Player.prototype.update;
-Game_Player.prototype.update = function(sceneActive) {
-	Galv.PMOVE.Game_Player_update.call(this,sceneActive);
-	if (this._tileDelay > 0) this._tileDelay -= 1;
-};
 
 // OVERWRITE
 Game_Player.prototype.startMapEvent = function(x, y, triggers, normal) {
@@ -521,9 +509,9 @@ Game_Player.prototype.startMapEvent = function(x, y, triggers, normal) {
             if (event.isTriggerIn(triggers) && event.isNormalPriority() === normal) {
 				if (event.event().meta.noDelay)
                     event.start();
-                else if (!(event.delay > 0)) {
+                else if (!(event.delay > Graphics.frameCount)) {
                     event.start();
-                    event.delay = Galv.PMOVE.evDelay;
+                    event.delay = Graphics.frameCount + Galv.PMOVE.evDelay;
                 }
             }
         });
