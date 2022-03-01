@@ -44,6 +44,10 @@ Galv.PMOVE = Galv.PMOVE || {};          // Galv's stuff
  * @param Event Touch Delay
  * @desc No. frames delay before a below character touch event can be repeated
  * @default 30
+ * 
+ * @param Minimum Encounter Step
+ * @desc No. steps before an encounter can happen
+ * @default 1
  *
  * @help
  *   Galv's Pseudo Pixel Move
@@ -154,6 +158,7 @@ Galv.PMOVE.diagGraphic = PluginManager.parameters('Galv_PixelMove')["Diagonal Ch
 
 Galv.PMOVE.tileDmgDelay = Number(PluginManager.parameters('Galv_PixelMove')["Tile Damage Delay"]);
 Galv.PMOVE.evDelay = Number(PluginManager.parameters('Galv_PixelMove')["Event Touch Delay"]);
+Galv.PMOVE.minEncounterStep = Number(PluginManager.parameters('Galv_PixelMove')["Minimum Encounter Step"]);
 
 
 Galv.PMOVE.xPos = function() {
@@ -799,6 +804,13 @@ Game_Player.prototype.executeMove = function(direction) {
 		var dirArray = Galv.PMOVE.getHorzVertDirs(direction);
 		this.moveDiagonally(dirArray[0],dirArray[1]);
 	};
+};
+
+// OVERWRITE
+Game_Player.prototype.makeEncounterCount = function() {
+    // n is rolled twice so the average falls at $gameMap.encounterStep()
+    var n = $gameMap.encounterStep() - Galv.PMOVE.minEncounterStep + 1;
+    this._encounterCount = Math.randomInt(n) + Math.randomInt(n) + Galv.PMOVE.minEncounterStep;
 };
 
 
