@@ -73,8 +73,9 @@ MusicLover.forEachListener = function(action) {
 
 MusicLover.songTipMult = function(song, args) {
     if (song && args) {
+        var match;
         for (a in args) {
-            var match = args[a].match(/Song\(([0-9]+)\)Tip:([0-9]+(?:.[0-9]+)?)/i);
+            match = String(args[a]).match(/^Song\(([0-9]+)\)Tip:([0-9]+(?:.[0-9]+)?)$/i);
             if (match && song == match[1])
                 return Number(match[2]);
         }
@@ -84,11 +85,12 @@ MusicLover.songTipMult = function(song, args) {
 
 MusicLover.unique = function(args) {
     if (args) {
+        var match;
         for (a in args) {
-            var match = args[a].match(/Unique:([0-9]+)/i);
+            match = String(args[a]).match(/^Unique:([0-9]+)$/i);
             if (match)
                 return Number(match[1]);
         }
     }
     return null;
-}
+};
