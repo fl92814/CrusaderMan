@@ -42,15 +42,15 @@ MusicLover.forEachListener = function(action) {
     for (ei in $dataMap.events) {
         var evData = $dataMap.events[ei];
         if (evData && evData.note) {
-            var match = evData.note.match(/<MusicLover(?:\s(.+))?>/i);
+            var match = String(evData.note).match(/<MusicLover(?:\s(.+))?>/i);
             var evMap = $gameMap.event(evData.id);
             if (match && Math.abs(evMap.x - $gamePlayer.x) <= 3 && Math.abs(evMap.y - $gamePlayer.y) <= 3) {
-                var args;
+                var args = null;
                 if (match[1]) {
                     args = match[1].split(/\s+/);
                   procArgs:
                     for (a in args) {
-                        match = args[a].match(/^Pages?:([0-9]+)((?:,[0-9]+)+)?$/i);
+                        match = String(args[a]).match(/^Pages?:([0-9]+)((?:,[0-9]+)+)?$/i);
                         if (match) { // has required pages defined
                             var pg = evMap._pageIndex + 1;
                             if (pg == match[1])
