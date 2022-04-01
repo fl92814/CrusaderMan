@@ -18,17 +18,21 @@ Imported.MusicLover = '0.0.1';
  * <MusicLover Pages:#,#,#,..>
  * Sets only the specified pages as possible listeners.
  * 
- * <MusicLover Unique:##>
- * Sets the listener to activate the specified unique script after the performance finishes.
- * 
  * <MusicLover Song(##)Tip:##>
  * Sets the tip multiplier for a given song. More than 1 is considered favorite, less than 1 is annoyed.
+ * 
+ * <MusicLover Unique:##>
+ * Sets the listener to activate the specified unique script after the performance finishes.
+ * Only one unique listener can activate at a time.
  *
  * ============================================================================
  * Script Functions
  *
  * MusicLover.forEachListener(function(evData, evMap, args) { ... });
  * 
+ * tipMult = MusicLover.songTipMult(song, args);
+ * 
+ * uniqueId = MusicLover.unique(args);
  */
  
 var MusicLover = MusicLover || {};
@@ -41,8 +45,9 @@ MusicLover.forEachListener = function(action) {
             var match = evData.note.match(/<MusicLover(?:\s(.+))?>/i);
             var evMap = $gameMap.event(evData.id);
             if (match && Math.abs(evMap.x - $gamePlayer.x) <= 3 && Math.abs(evMap.y - $gamePlayer.y) <= 3) {
+                var args;
                 if (match[1]) {
-                    var args = match[1].split(/\s+/);
+                    args = match[1].split(/\s+/);
                   procArgs:
                     for (a in args) {
                         match = args[a].match(/^Pages?:([0-9]+)((?:,[0-9]+)+)?$/i);
@@ -65,3 +70,25 @@ MusicLover.forEachListener = function(action) {
         }
     }
 };
+
+MusicLover.songTipMult = function(song, args) {
+    if (song && args) {
+        for (a in args) {
+            var match = args[a].match(/Song\(([0-9]+)\)Tip:([0-9]+(?:.[0-9]+)?)/i);
+            if (match && song == match[1])
+                return Number(match[2]);
+        }
+    }
+    return 1;
+};
+
+MusicLover.unique = function(args) {
+    if (args) {
+        for (a in args) {
+            var match = args[a].match(/Unique:([0-9]+)/i);
+            if (match)
+                return Number(match[1]);
+        }
+    }
+    return null;
+}
