@@ -98,7 +98,7 @@ null,
 {"id":96,"expanded":false,"name":"House 1","order":130,"parentId":95,"scrollX":819,"scrollY":466},
 {"id":97,"expanded":false,"name":"House 2","order":131,"parentId":95,"scrollX":832,"scrollY":640},
 {"id":98,"expanded":false,"name":"House 3","order":132,"parentId":95,"scrollX":819,"scrollY":461},
-{"id":99,"expanded":true,"name":"Garishburg Castle","order":136,"parentId":82,"scrollX":832,"scrollY":640},
+{"id":99,"expanded":true,"name":"Garishburg Castle","order":136,"parentId":82,"scrollX":819,"scrollY":466},
 {"id":100,"expanded":false,"name":"Prison Entrance","order":118,"parentId":94,"scrollX":819,"scrollY":461},
 {"id":101,"expanded":false,"name":"Prison cell 1","order":119,"parentId":94,"scrollX":819,"scrollY":466},
 {"id":102,"expanded":true,"name":"Prison cell 2","order":120,"parentId":94,"scrollX":819,"scrollY":461},
@@ -315,5 +315,6 @@ null,
 {"id":313,"expanded":true,"name":"Seared Mountain Caves","order":291,"parentId":312,"scrollX":811,"scrollY":466},
 {"id":314,"expanded":true,"name":"Circus","order":314,"parentId":0,"scrollX":819,"scrollY":466},
 {"id":315,"expanded":false,"name":"Circus Underground","order":315,"parentId":314,"scrollX":819,"scrollY":466},
-{"id":316,"expanded":true,"name":"Traveling Shop","order":316,"parentId":0,"scrollX":819,"scrollY":466}
+{"id":316,"expanded":true,"name":"Traveling Shop","order":316,"parentId":0,"scrollX":819,"scrollY":466},
+{"id":317,"expanded":true,"name":"Abandoned Road","order":317,"parentId":0,"scrollX":819,"scrollY":466}
 ]
