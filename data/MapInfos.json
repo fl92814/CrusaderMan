@@ -315,6 +315,7 @@ null,
 {"id":313,"expanded":true,"name":"Seared Mountain Caves","order":291,"parentId":312,"scrollX":811,"scrollY":466},
 {"id":314,"expanded":true,"name":"Circus","order":314,"parentId":0,"scrollX":819,"scrollY":466},
 {"id":315,"expanded":false,"name":"Circus Underground","order":315,"parentId":314,"scrollX":819,"scrollY":466},
-{"id":316,"expanded":true,"name":"Traveling Shop","order":316,"parentId":0,"scrollX":819,"scrollY":466},
-{"id":317,"expanded":true,"name":"Abandoned Road","order":317,"parentId":0,"scrollX":819,"scrollY":461}
+{"id":316,"expanded":true,"name":"Traveling Shop","order":316,"parentId":0,"scrollX":832,"scrollY":640},
+{"id":317,"expanded":true,"name":"Abandoned Road","order":317,"parentId":0,"scrollX":819,"scrollY":466},
+{"id":318,"expanded":true,"name":"Road of Learning","order":318,"parentId":0,"scrollX":819,"scrollY":466}
 ]
